@@ -21,14 +21,11 @@ export class BfsAgent implements Agent {
         let visitedMap = new Map <String, Boolean>();
         let parent = new Map<String, String>();
         let queue = [startPage];
-
+        
         while(queue.length > 0) {
             let toVisit = queue.shift();
             if (!toVisit) {
                 throw new Error ("Unexpected error, actually, it should never happen");
-            }
-            if (toVisit.getUrl() == endPage.getUrl()) {
-                return this.backTracePath(startPage.getUrl(), endPage.getUrl(), parent);
             }
             if (visitedMap.get(toVisit.getTitle()))
                 continue;
@@ -37,6 +34,9 @@ export class BfsAgent implements Agent {
             let linkedPages = await toVisit.getAllLinkedPages();
             for (const l of linkedPages) {
                 parent.set(l.getUrl(), toVisit.getUrl());
+                if (l.getUrl() == endPage.getUrl()) {
+                    return this.backTracePath(startPage.getUrl(), endPage.getUrl(), parent);
+                }
                 queue.push(l);
             }
         }
@@ -52,11 +52,16 @@ export class RandomAgent implements Agent {
     run = async (startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
         let path = new Array<string>(startPage.getUrl());
 
-        while(startPage.getTitle() != endPage.getTitle()) {
+        while(true) {
             let linkedPages = await startPage.getAllLinkedPages();
+            for (let page of linkedPages) {
+                if (page.getUrl() == endPage.getUrl()) {
+                    path.push(page.getUrl());
+                    return path;
+                }
+            }
             startPage = this.getRandomPage(linkedPages);
             path.push(startPage.getUrl());
         }
-        return path;
     }
 }

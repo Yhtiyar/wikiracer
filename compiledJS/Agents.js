@@ -12,15 +12,15 @@ class BfsAgent {
                 if (!toVisit) {
                     throw new Error("Unexpected error, actually, it should never happen");
                 }
-                if (toVisit.getUrl() == endPage.getUrl()) {
-                    return this.backTracePath(startPage.getUrl(), endPage.getUrl(), parent);
-                }
                 if (visitedMap.get(toVisit.getTitle()))
                     continue;
                 visitedMap.set(toVisit.getUrl(), true);
                 let linkedPages = await toVisit.getAllLinkedPages();
                 for (const l of linkedPages) {
                     parent.set(l.getUrl(), toVisit.getUrl());
+                    if (l.getUrl() == endPage.getUrl()) {
+                        return this.backTracePath(startPage.getUrl(), endPage.getUrl(), parent);
+                    }
                     queue.push(l);
                 }
             }
@@ -43,12 +43,17 @@ class RandomAgent {
     constructor() {
         this.run = async (startPage, endPage) => {
             let path = new Array(startPage.getUrl());
-            while (startPage.getTitle() != endPage.getTitle()) {
+            while (true) {
                 let linkedPages = await startPage.getAllLinkedPages();
+                for (let page of linkedPages) {
+                    if (page.getUrl() == endPage.getUrl()) {
+                        path.push(page.getUrl());
+                        return path;
+                    }
+                }
                 startPage = this.getRandomPage(linkedPages);
                 path.push(startPage.getUrl());
             }
-            return path;
         };
     }
     getRandomPage(pages) {

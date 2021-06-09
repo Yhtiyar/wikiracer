@@ -22,20 +22,41 @@ async function apiRequest(searchParams : URLSearchParams) {
     let querryUrl = apiUrl + searchParams;
     let response = await fetch(querryUrl);
     let json = await response.json();
+    
     return json;
+}
+
+async function expBackoff(searchParams : URLSearchParams) {
+    const delayCofficient = 0.0512;
+    let expCofficient = 1;
+    while (true) {
+        try {
+            let k = Math.random() * expCofficient;
+            delay(k * delayCofficient);
+            let ans = await apiRequest(searchParams);
+            console.log(k * delayCofficient)
+            return ans;
+        }
+        catch (err) {
+            expCofficient <<= 1;
+        }
+    }
 }
 
 export async function getAllLinkedTitles(title : string) : Promise<wikiPage[]>{
     let  searchParams = generateLinkParams(title);
-    console.log(`requesting: ${title} inner links`);
-    let json;
+    console.log(`requesting inner links of: ${title}`);
+   
+    let json = await expBackoff(searchParams);
+
+    /** Tried this was. still blocks every req after first 6 requests
     try {
         json = await apiRequest(searchParams);
     }
     catch (err) {
         await delay(1100);
         json = await apiRequest(searchParams);
-    }
+    }**/
 
     let linkedPages = new Array<wikiPage>();
     let pages = json.query.pages;

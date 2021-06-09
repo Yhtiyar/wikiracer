@@ -27,17 +27,34 @@ async function apiRequest(searchParams) {
     let json = await response.json();
     return json;
 }
+async function expBackoff(searchParams) {
+    const delayCofficient = 0.0512;
+    let expCofficient = 1;
+    while (true) {
+        try {
+            let k = Math.random() * expCofficient;
+            delay(k * delayCofficient);
+            let ans = await apiRequest(searchParams);
+            console.log(k * delayCofficient);
+            return ans;
+        }
+        catch (err) {
+            expCofficient <<= 1;
+        }
+    }
+}
 async function getAllLinkedTitles(title) {
     let searchParams = generateLinkParams(title);
-    console.log(`requesting: ${title}`);
-    let json;
+    console.log(`requesting inner links of: ${title}`);
+    let json = await expBackoff(searchParams);
+    /** Tried this was. still blocks every req after first 6 requests
     try {
         json = await apiRequest(searchParams);
     }
     catch (err) {
         await delay(1100);
         json = await apiRequest(searchParams);
-    }
+    }**/
     let linkedPages = new Array();
     let pages = json.query.pages;
     for (let p in pages) {
