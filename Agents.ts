@@ -50,7 +50,7 @@ export class RandomAgent implements Agent {
         return pages[Math.floor(Math.random() * pages.length)];
     }
     run = async (startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
-        let path = new Array<string>(startPage.getUrl());
+        let path = [startPage.getUrl()];
 
         while(true) {
             let linkedPages = await startPage.getAllLinkedPages();
