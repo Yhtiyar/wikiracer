@@ -49,6 +49,7 @@ export class RandomAgent implements Agent {
     private getRandomPage(pages : wikiPage[]) {
         return pages[Math.floor(Math.random() * pages.length)];
     }
+    
     run = async (startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
         let path = [startPage.getUrl()];
 

@@ -35,7 +35,6 @@ async function expBackoff(searchParams) {
             let k = Math.random() * expCofficient;
             delay(k * delayCofficient);
             let ans = await apiRequest(searchParams);
-            console.log(k * delayCofficient);
             return ans;
         }
         catch (err) {

@@ -42,7 +42,7 @@ exports.BfsAgent = BfsAgent;
 class RandomAgent {
     constructor() {
         this.run = async (startPage, endPage) => {
-            let path = new Array(startPage.getUrl());
+            let path = [startPage.getUrl()];
             while (true) {
                 let linkedPages = await startPage.getAllLinkedPages();
                 for (let page of linkedPages) {
