@@ -12,7 +12,7 @@ class BfsAgent {
                 if (!toVisit) {
                     throw new Error("Unexpected error, actually, it should never happen");
                 }
-                if (visitedMap.get(toVisit.getTitle()))
+                if (visitedMap.get(toVisit.getUrl()))
                     continue;
                 visitedMap.set(toVisit.getUrl(), true);
                 let linkedPages = await toVisit.getAllLinkedPages();

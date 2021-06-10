@@ -6,7 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllLinkedTitles = void 0;
 const wikiPage_1 = require("./wikiPage");
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const apiUrl = "https://en.wikipedia.org/w/api.php?";
+const API_URL = "https://en.wikipedia.org/w/api.php?";
+const HEADERS = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": " wikiracer/0.1 (https://yhtiyar.github.io; sahatovyhtyyar@gmail.com) generic-library/0.0"
+};
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -22,8 +27,10 @@ function generateLinkParams(title) {
     });
 }
 async function apiRequest(searchParams) {
-    let querryUrl = apiUrl + searchParams;
-    let response = await node_fetch_1.default(querryUrl);
+    let querryUrl = API_URL + searchParams;
+    let response = await node_fetch_1.default(querryUrl, {
+        headers: HEADERS,
+    });
     let json = await response.json();
     return json;
 }
@@ -38,6 +45,7 @@ async function expBackoff(searchParams) {
             return ans;
         }
         catch (err) {
+            console.log(err);
             expCofficient <<= 1;
         }
     }
@@ -54,13 +62,18 @@ async function getAllLinkedTitles(title) {
         await delay(1100);
         json = await apiRequest(searchParams);
     }**/
-    let linkedPages = new Array();
-    let pages = json.query.pages;
-    for (let p in pages) {
-        for (let l of pages[p].links) {
-            linkedPages.push(new wikiPage_1.wikiPage(l.title));
+    try {
+        let linkedPages = new Array();
+        let pages = json.query.pages;
+        for (let p in pages) {
+            for (let l of pages[p].links) {
+                linkedPages.push(new wikiPage_1.wikiPage(l.title));
+            }
         }
+        return linkedPages;
     }
-    return linkedPages;
+    catch (err) {
+        return [];
+    }
 }
 exports.getAllLinkedTitles = getAllLinkedTitles;

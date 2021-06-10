@@ -20,7 +20,7 @@ function runWikiRacer(agent : Agent, startTitle : string, endTitle : string) {
 
 var args = process.argv.slice(2);
 console.log("Testing example : ");
-runWikiRacer(new BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Hitler"));
+runWikiRacer(new BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Wehrmacht"));
 
 //if (args.length !== 2)
 //    throw new Error("Wrong number of arguments");

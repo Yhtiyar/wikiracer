@@ -1,12 +1,14 @@
 import {getAllLinkedTitles} from './wikiApi';
 
-const wikiUrl = "https://en.wikipedia.org/wiki/";
+const WIKI_URL = "https://en.wikipedia.org/wiki/";
 
 export class wikiPage {
     private links? : wikiPage[];
     private title : string;
+    private url : string;
     constructor (title : string) {
         this.title = title;
+        this.url = WIKI_URL + this.getTitle();
     }
     
     getTitle() : string {
@@ -14,7 +16,7 @@ export class wikiPage {
     }
     
     getUrl() : string {
-        return wikiUrl + this.getTitle();
+        return this.url;
     }
 
     async getAllLinkedPages() : Promise<wikiPage[]>{

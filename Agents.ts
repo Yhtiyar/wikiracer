@@ -27,7 +27,7 @@ export class BfsAgent implements Agent {
             if (!toVisit) {
                 throw new Error ("Unexpected error, actually, it should never happen");
             }
-            if (visitedMap.get(toVisit.getTitle()))
+            if (visitedMap.get(toVisit.getUrl()))
                 continue;
             
             visitedMap.set(toVisit.getUrl(), true);
@@ -49,7 +49,7 @@ export class RandomAgent implements Agent {
     private getRandomPage(pages : wikiPage[]) {
         return pages[Math.floor(Math.random() * pages.length)];
     }
-    
+
     run = async (startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
         let path = [startPage.getUrl()];
 
