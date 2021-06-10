@@ -4,9 +4,11 @@ const Agents_1 = require("./Agents");
 const wikiPage_1 = require("./wikiPage");
 function parseTitle(url) {
     url = decodeURI(url);
+    url = url.replace(/_/g, " ");
     let splitted = url.split('/wiki/');
     if (splitted.length !== 2)
         throw new Error(`Probably not wiki url : ${url}`);
+    console.log(splitted[1]);
     return splitted[1];
 }
 function runWikiRacer(agent, startTitle, endTitle) {
