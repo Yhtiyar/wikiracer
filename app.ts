@@ -12,6 +12,10 @@ function parseTitle(url : string) : string {
 }
 
 function runWikiRacer(agent : Agent, startTitle : string, endTitle : string) {
+    if (startTitle == endTitle) {
+        console.log(startTitle);
+        return;
+    }
     agent.run(new wikiPage(startTitle), new wikiPage(endTitle))
     .then((urls) => {
         console.log(`Found page in ${urls.length} steps:`);
