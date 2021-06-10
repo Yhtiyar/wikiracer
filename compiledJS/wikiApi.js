@@ -36,17 +36,17 @@ async function apiRequest(searchParams) {
 }
 async function expBackoff(searchParams) {
     const delayCofficient = 0.0512;
-    let expCofficient = 1;
+    let expCofficient = 0;
     while (true) {
         try {
-            let k = Math.random() * expCofficient;
+            let k = Math.random() * (1 << expCofficient);
             delay(k * delayCofficient);
             let ans = await apiRequest(searchParams);
             return ans;
         }
         catch (err) {
             console.log(err);
-            expCofficient <<= 1;
+            expCofficient++;
         }
     }
 }
