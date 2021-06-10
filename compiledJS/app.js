@@ -12,6 +12,10 @@ function parseTitle(url) {
     return splitted[1];
 }
 function runWikiRacer(agent, startTitle, endTitle) {
+    if (startTitle == endTitle) {
+        console.log(startTitle);
+        return;
+    }
     agent.run(new wikiPage_1.wikiPage(startTitle), new wikiPage_1.wikiPage(endTitle))
         .then((urls) => {
         console.log(`Found page in ${urls.length} steps:`);
@@ -20,7 +24,7 @@ function runWikiRacer(agent, startTitle, endTitle) {
 }
 var args = process.argv.slice(2);
 console.log("Testing example : ");
-runWikiRacer(new Agents_1.BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Wehrmacht"));
+runWikiRacer(new Agents_1.BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Education_in_Portugal"));
 //if (args.length !== 2)
 //    throw new Error("Wrong number of arguments");
 //runWikiRacer(new BfsAgent(), parseTitle(args[0]), parseTitle(args[1]));
