@@ -15,9 +15,9 @@ class wikiPage {
         return this.url;
     }
     async getAllLinkedPages() {
-        if (this.links)
+        if (this.links != undefined)
             return this.links;
-        this.links = await wikiApi_1.getAllLinkedTitles(this.title);
+        this.links = await wikiApi_1.WikiApi.getAllLinkedTitles(this.title);
         return this.links;
     }
 }

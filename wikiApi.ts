@@ -1,6 +1,41 @@
 import { wikiPage } from "./wikiPage";
 import fetch from 'node-fetch'
 
+
+export abstract class WikiApi {
+    private static logging : boolean;
+
+    static setLogging(bool : boolean) {
+        this.logging = bool;
+    }
+
+    static async getAllLinkedTitles(title : string) : Promise<wikiPage[]> {
+        let  requestParametrs = generateLinkSearchParams(title);
+
+        if (this.logging)
+            console.log(`requesting inner links of: ${title}`);
+
+        let response = await requestWithExpBackoff(requestParametrs);
+        try {
+            let linkedPages = new Array<wikiPage>();
+            let pages = response.query.pages;
+            for (let p in pages) {
+                for (let l of pages[p].links) {
+                    linkedPages.push(new wikiPage(l.title));
+                }
+            }
+            return linkedPages;
+        }
+        catch (err) {
+            if (this.logging)
+                console.log(`Can't get inner links of: ${title}`);
+            return [];
+        }
+    }
+
+}
+
+
 const API_URL = "https://en.wikipedia.org/w/api.php?";
 
 const HEADERS = {
@@ -13,7 +48,7 @@ function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-function generateLinkParams(title : string) {
+function generateLinkSearchParams(title : string) {
    return new URLSearchParams({
         origin: "*",
         action: "query",
@@ -31,11 +66,11 @@ async function apiRequest(searchParams : URLSearchParams) {
         headers : HEADERS,
     });
     let json = await response.json();
-    
+
     return json;
 }
 
-async function expBackoff(searchParams : URLSearchParams) {
+async function requestWithExpBackoff(searchParams : URLSearchParams) {
     const delayCofficient = 0.0512;
     let expCofficient = 0;
     while (true) {
@@ -46,38 +81,8 @@ async function expBackoff(searchParams : URLSearchParams) {
             return ans;
         }
         catch (err) {
-            console.log(err);
             expCofficient ++;
         }
     }
 }
 
-export async function getAllLinkedTitles(title : string) : Promise<wikiPage[]>{
-    let  searchParams = generateLinkParams(title);
-    console.log(`requesting inner links of: ${title}`);
-   
-    let json = await expBackoff(searchParams);
-
-    /** Tried this was. still blocks every req after first 6 requests
-    try {
-        json = await apiRequest(searchParams);
-    }
-    catch (err) {
-        await delay(1100);
-        json = await apiRequest(searchParams);
-    }**/
-    try {
-        let linkedPages = new Array<wikiPage>();
-        let pages = json.query.pages;
-        for (let p in pages) {
-            for (let l of pages[p].links) {
-                linkedPages.push(new wikiPage(l.title));
-            }
-        }
-        return linkedPages;
-    }
-    catch (err) {
-        return [];
-    }
-   
-}

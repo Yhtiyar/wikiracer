@@ -1,4 +1,4 @@
-import {getAllLinkedTitles} from './wikiApi';
+import {WikiApi} from './wikiApi';
 
 const WIKI_URL = "https://en.wikipedia.org/wiki/";
 
@@ -6,6 +6,7 @@ export class wikiPage {
     private links? : wikiPage[];
     private title : string;
     private url : string;
+
     constructor (title : string) {
         this.title = title;
         this.url = WIKI_URL + this.getTitle();
@@ -20,9 +21,9 @@ export class wikiPage {
     }
 
     async getAllLinkedPages() : Promise<wikiPage[]>{
-        if (this.links)
+        if (this.links != undefined)
             return this.links;
-        this.links = await getAllLinkedTitles(this.title)
+        this.links = await WikiApi.getAllLinkedTitles(this.title)
         return this.links;
     }
 }
