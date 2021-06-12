@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RandomAgent = exports.BfsAgent = void 0;
+const wikiPage_1 = require("./wikiPage");
+const wikiApi_1 = require("./wikiApi");
 class BfsAgent {
     constructor() {
         this.run = async (startPage, endPage) => {
@@ -12,16 +14,20 @@ class BfsAgent {
                 if (!toVisit) {
                     throw new Error("Unexpected error, actually, it should never happen");
                 }
-                if (visitedMap.get(toVisit.getUrl()))
+                if (visitedMap.get(toVisit.getTitle()))
                     continue;
-                visitedMap.set(toVisit.getUrl(), true);
+                visitedMap.set(toVisit.getTitle(), true);
                 let linkedPages = await toVisit.getAllLinkedPages();
                 for (const l of linkedPages) {
-                    parent.set(l.getUrl(), toVisit.getUrl());
-                    if (l.getUrl() == endPage.getUrl()) {
-                        return this.backTracePath(startPage.getUrl(), endPage.getUrl(), parent);
+                    if (visitedMap.get(l.getTitle()))
+                        continue;
+                    parent.set(l.getTitle(), toVisit.getTitle());
+                    if (l.getTitle() == endPage.getTitle()) {
+                        wikiApi_1.WikiApi.setLogging(false);
+                        return this.backTracePath(startPage.getTitle(), endPage.getTitle(), parent);
                     }
                     queue.push(l);
+                    setTimeout(() => l.getAllLinkedPages(), queue.length * 10);
                 }
             }
             throw new Error("Path not found");
@@ -35,25 +41,28 @@ class BfsAgent {
                 throw new Error("Cannot backtrace path");
             path.push(nodeParent.toString());
         }
-        return path.reverse();
+        return path.reverse().map(title => wikiPage_1.wikiPage.makeUrl(title));
+    }
+    async addChildren() {
     }
 }
 exports.BfsAgent = BfsAgent;
 class RandomAgent {
     constructor() {
         this.run = async (startPage, endPage) => {
-            let path = [startPage.getUrl()];
+            let path = [startPage.getTitle()];
             while (true) {
                 let linkedPages = await startPage.getAllLinkedPages();
                 for (let page of linkedPages) {
-                    if (page.getUrl() == endPage.getUrl()) {
-                        path.push(page.getUrl());
+                    if (page.getTitle() == endPage.getTitle()) {
+                        path.push(page.getTitle());
                         return path;
                     }
                 }
                 startPage = this.getRandomPage(linkedPages);
-                path.push(startPage.getUrl());
+                path.push(startPage.getTitle());
             }
+            //TODO : return url
         };
     }
     getRandomPage(pages) {

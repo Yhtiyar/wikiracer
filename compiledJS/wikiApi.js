@@ -11,10 +11,10 @@ class WikiApi {
         this.logging = bool;
     }
     static async getAllLinkedTitles(title) {
-        let requestParametrs = generateSearchParams(title);
+        let requestParametrs = generateLinkSearchParams(title);
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
-        let response = await expBackoffRequest(requestParametrs);
+        let response = await requestWithExpBackoff(requestParametrs);
         try {
             let linkedPages = new Array();
             let pages = response.query.pages;
@@ -23,9 +23,12 @@ class WikiApi {
                     linkedPages.push(new wikiPage_1.wikiPage(l.title));
                 }
             }
+            console.log(`got inner links of: ${title}`);
             return linkedPages;
         }
         catch (err) {
+            if (this.logging)
+                console.log(`Can't get inner links of: ${title}`);
             return [];
         }
     }
@@ -40,7 +43,7 @@ const HEADERS = {
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function generateSearchParams(title) {
+function generateLinkSearchParams(title) {
     return new URLSearchParams({
         origin: "*",
         action: "query",
@@ -59,7 +62,7 @@ async function apiRequest(searchParams) {
     let json = await response.json();
     return json;
 }
-async function expBackoffRequest(searchParams) {
+async function requestWithExpBackoff(searchParams) {
     const delayCofficient = 0.0512;
     let expCofficient = 0;
     while (true) {

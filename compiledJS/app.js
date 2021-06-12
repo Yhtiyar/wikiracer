@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Agents_1 = require("./Agents");
 const wikiPage_1 = require("./wikiPage");
+const wikiApi_1 = require("./wikiApi");
 function parseTitle(url) {
     url = decodeURI(url);
     url = url.replace(/_/g, " ");
@@ -20,11 +21,13 @@ function runWikiRacer(agent, startTitle, endTitle) {
         .then((urls) => {
         console.log(`Found page in ${urls.length} steps:`);
         urls.forEach(el => console.log(el));
+        process.exit(1);
     });
 }
+wikiApi_1.WikiApi.setLogging(true);
 var args = process.argv.slice(2);
 console.log("Testing example : ");
-runWikiRacer(new Agents_1.BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Education_in_Portugal"));
+runWikiRacer(new Agents_1.BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Superfine_Films"), parseTitle("https://en.wikipedia.org/wiki/Adolf_Hitler"));
 //if (args.length !== 2)
 //    throw new Error("Wrong number of arguments");
 //runWikiRacer(new BfsAgent(), parseTitle(args[0]), parseTitle(args[1]));

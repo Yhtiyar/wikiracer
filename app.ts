@@ -1,5 +1,6 @@
 import {Agent, BfsAgent, RandomAgent} from './Agents';
 import { wikiPage } from './wikiPage';
+import { WikiApi } from './wikiApi';
 
 function parseTitle(url : string) : string {
     url = decodeURI(url);
@@ -20,12 +21,13 @@ function runWikiRacer(agent : Agent, startTitle : string, endTitle : string) {
     .then((urls) => {
         console.log(`Found page in ${urls.length} steps:`);
         urls.forEach(el => console.log(el))
+        process.exit(1);
     })
 }
-
+WikiApi.setLogging(true);
 var args = process.argv.slice(2);
 console.log("Testing example : ");
-runWikiRacer(new BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Battle_of_Cr%C3%A9cy"), parseTitle("https://en.wikipedia.org/wiki/Education_in_Portugal"));
+runWikiRacer(new BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Superfine_Films"), parseTitle("https://en.wikipedia.org/wiki/Adolf_Hitler"));
 
 //if (args.length !== 2)
 //    throw new Error("Wrong number of arguments");

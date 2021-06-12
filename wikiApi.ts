@@ -24,6 +24,7 @@ export abstract class WikiApi {
                     linkedPages.push(new wikiPage(l.title));
                 }
             }
+            console.log(`got inner links of: ${title}`)
             return linkedPages;
         }
         catch (err) {
@@ -32,6 +33,10 @@ export abstract class WikiApi {
             return [];
         }
     }
+
+    //static async getAllCategories(title : string) : Promise<string[]> {
+        
+    //}
 
 }
 

@@ -6,19 +6,20 @@ const WIKI_URL = "https://en.wikipedia.org/wiki/";
 class wikiPage {
     constructor(title) {
         this.title = title;
-        this.url = WIKI_URL + this.getTitle();
     }
     getTitle() {
         return this.title;
     }
-    getUrl() {
-        return this.url;
-    }
     async getAllLinkedPages() {
         if (this.links != undefined)
             return this.links;
-        this.links = await wikiApi_1.WikiApi.getAllLinkedTitles(this.title);
-        return this.links;
+        return wikiApi_1.WikiApi.getAllLinkedTitles(this.title).then(res => {
+            this.links = res;
+            return res;
+        });
+    }
+    static makeUrl(title) {
+        return encodeURI(WIKI_URL + title);
     }
 }
 exports.wikiPage = wikiPage;
