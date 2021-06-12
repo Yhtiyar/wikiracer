@@ -26,7 +26,7 @@ export abstract class WikiApi {
      * It only requests pages with namespace = 0 
      * @see https://en.wikipedia.org/wiki/Wikipedia:Namespace for namespace details
      *  
-     * @param title title of the wikipedia Page
+     * @param title - title of the wikipedia Page
      */
     static async getAllLinkedPages(title : string) : Promise<wikiPage[]> {
         let  requestParametrs = generateLinkSearchParams(title);
@@ -80,7 +80,7 @@ function delay(ms: number) {
 /**
  * Generates url parameters for the API request that
  * represents links of the page.
- * @param title page title
+ * @param title - page title
  */
 function generateLinkSearchParams(title : string) {
    return new URLSearchParams({
@@ -96,7 +96,7 @@ function generateLinkSearchParams(title : string) {
 
 /**
  * Makes request to the API with given parameters
- * @param searchParams parameters of the request
+ * @param searchParams - parameters of the request
  */
 async function apiRequest(searchParams : URLSearchParams) {
     let querryUrl = API_URL + searchParams;
@@ -111,7 +111,7 @@ async function apiRequest(searchParams : URLSearchParams) {
 /**
  * Makes request with Exponential backoff
  * @see https://en.wikipedia.org/wiki/Exponential_backoff for details
- * @param searchParams parameters of the request
+ * @param searchParams - parameters of the request
  */
 async function requestWithExpBackoff(searchParams : URLSearchParams) {
     const delayCofficient = 0.0512; //51.2 microseconds in milliseconds

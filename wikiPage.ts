@@ -10,7 +10,7 @@ export class wikiPage {
 
     /**
      * Creates new wikiPage
-     * @param title title of the wikipedia page
+     * @param title - title of the wikipedia page
      */
     constructor (title : string) {
         this.title = title;
@@ -40,7 +40,7 @@ export class wikiPage {
     
     /**
      * URL to the wikipedia page
-     * @param title title of the page
+     * @param title -  title of the page
      */
     static makeUrl(title : string) {
         return encodeURI(WIKI_URL + title);
