@@ -29,6 +29,7 @@ class PriorityQueue<T> {
     public isEmpty = () => this.heap.length == 0
     public size = () => this.heap.length;
     public front = () => this.heap.length == 0 ? null : this.heap[0].value;
+    public frontPriority = () => this.heap.length == 0 ? null : this.heap[0].key;
     public push (item : T, priority : number) {
         this.heap.push({key: priority, value: item})
         let i = this.heap.length -1
