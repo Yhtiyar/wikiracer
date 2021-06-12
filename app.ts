@@ -1,5 +1,5 @@
 import {ArgumentParser} from 'argparse';
-import {Agent, BfsAgent, RandomAgent} from './Agents';
+import {Agent, BfsAgent, RandomAgent} from './agents/Agents';
 import { wikiPage } from './wikiPage';
 import { WikiApi } from './wikiApi';
 
@@ -28,10 +28,6 @@ function runWikiRacer(agent : Agent, startTitle : string, endTitle : string) {
         process.exit(1);
     })
 }
-//WikiApi.setLogging(true);
-//console.log("Testing example : ");
-//runWikiRacer(new BfsAgent(), parseTitle("https://en.wikipedia.org/wiki/Superfine_Films"), parseTitle("https://en.wikipedia.org/wiki/Adolf_Hitler"));
-
 
 const argParser = new ArgumentParser({
     description : "wikiracer"
@@ -41,6 +37,5 @@ argParser.add_argument('-e', '--end', {help: 'wiki page url, where to end', meta
 argParser.add_argument('--log', {action : 'store_true'})
 
 const args = argParser.parse_args();
-console.log(args);
 WikiApi.setLogging(args.log);
 runWikiRacer(new BfsAgent(), parseTitle(args.start), parseTitle(args.end));
