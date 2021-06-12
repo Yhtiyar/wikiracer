@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build" : "tsc --project ./",
-    "wikiracer" : "node ./compiledJS",
+    "wikiracer" : "node ./compiledJS/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "yhtiyar",
