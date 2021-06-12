@@ -18,10 +18,6 @@ export class BfsAgent implements Agent {
         return path.reverse().map(title => wikiPage.makeUrl(title));
     }
 
-    private async addChildren() {
-
-    }
-
     run = async(startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
         let visitedMap = new Map <String, Boolean>();
         let parent = new Map<String, String>();
@@ -67,12 +63,11 @@ export class RandomAgent implements Agent {
             for (let page of linkedPages) {
                 if (page.getTitle() == endPage.getTitle()) {
                     path.push(page.getTitle());
-                    return path;
+                    return path.map(title => wikiPage.makeUrl(title));
                 }
             }
             startPage = this.getRandomPage(linkedPages);
             path.push(startPage.getTitle());
         }
-        //TODO : return url
     }
 }
