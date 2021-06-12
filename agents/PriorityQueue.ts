@@ -7,6 +7,8 @@ interface HeapNode<T> {
  * Heap based priority queue, priority is from smaller one to bigger
  * 
  * @see https://en.wikipedia.org/wiki/Priority_queue 
+ * 
+ * Code is modified from here: @see https://itnext.io/priority-queue-in-typescript-6ef23116901
  */
 class PriorityQueue<T> {
     heap: HeapNode<T>[] = []
@@ -61,10 +63,3 @@ class PriorityQueue<T> {
       }
 }
 
-class Example {
-    public x : number;
-    constructor(x : number) {
-        this.x = x;
-    }
-    
-}
