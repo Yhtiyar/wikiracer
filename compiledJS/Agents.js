@@ -43,8 +43,6 @@ class BfsAgent {
         }
         return path.reverse().map(title => wikiPage_1.wikiPage.makeUrl(title));
     }
-    async addChildren() {
-    }
 }
 exports.BfsAgent = BfsAgent;
 class RandomAgent {
@@ -56,13 +54,12 @@ class RandomAgent {
                 for (let page of linkedPages) {
                     if (page.getTitle() == endPage.getTitle()) {
                         path.push(page.getTitle());
-                        return path;
+                        return path.map(title => wikiPage_1.wikiPage.makeUrl(title));
                     }
                 }
                 startPage = this.getRandomPage(linkedPages);
                 path.push(startPage.getTitle());
             }
-            //TODO : return url
         };
     }
     getRandomPage(pages) {

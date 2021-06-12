@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build" : "tsc --project ./",
-    "wikiracer" : "node ./compiledJS/app.js",
+    "build": "tsc --project ./",
+    "wikiracer": "node ./compiledJS/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "yhtiyar",
@@ -15,7 +15,9 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
+    "@types/argparse": "^2.0.8",
     "@types/node-fetch": "^2.5.10",
+    "argparse": "^2.0.1",
     "node-fetch": "^2.6.1"
   }
 }
