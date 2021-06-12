@@ -30,7 +30,6 @@ export abstract class WikiApi {
      */
     static async getAllLinkedPages(title : string) : Promise<wikiPage[]> {
         let  requestParametrs = generateLinkSearchParams(title);
-
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
 
@@ -44,7 +43,8 @@ export abstract class WikiApi {
                     linkedPages.push(new wikiPage(l.title));
                 }
             }
-            console.log(`got inner links of: ${title}`)
+            if (this.logging)
+                console.log(`got inner links of: ${title}`)
             return linkedPages;
         }
         catch (err) {
