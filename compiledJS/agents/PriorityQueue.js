@@ -3,6 +3,8 @@
  * Heap based priority queue, priority is from smaller one to bigger
  *
  * @see https://en.wikipedia.org/wiki/Priority_queue
+ *
+ * Code is modified from here: @see https://itnext.io/priority-queue-in-typescript-6ef23116901
  */
 class PriorityQueue {
     constructor() {
@@ -22,6 +24,7 @@ class PriorityQueue {
         this.isEmpty = () => this.heap.length == 0;
         this.size = () => this.heap.length;
         this.front = () => this.heap.length == 0 ? null : this.heap[0].value;
+        this.frontPriority = () => this.heap.length == 0 ? null : this.heap[0].key;
     }
     push(item, priority) {
         this.heap.push({ key: priority, value: item });
@@ -54,10 +57,5 @@ class PriorityQueue {
         if (!item)
             return null;
         return item.value;
-    }
-}
-class Example {
-    constructor(x) {
-        this.x = x;
     }
 }
