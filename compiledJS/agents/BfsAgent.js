@@ -20,16 +20,14 @@ class BfsAgent {
                 if (!toVisit) {
                     throw new Error("Unexpected error, actually, it should never happen");
                 }
-                if (visitedMap.get(toVisit.getTitle()))
-                    continue;
-                visitedMap.set(toVisit.getTitle(), true);
-                let linkedPages = await toVisit.getAllLinkedPages();
+                let linkedPages = await toVisit.getAllLinkedPages(true);
                 for (const l of linkedPages) {
                     if (visitedMap.get(l.getTitle()))
                         continue;
+                    visitedMap.set(l.getTitle(), true);
                     parentMap.set(l.getTitle(), toVisit.getTitle());
-                    /**If the page is what we are seeking, then backtrace  the path*/
                     if (l.getTitle() == endPage.getTitle()) {
+                        /**If the page is what we are seeking, then backtrace  the path*/
                         wikiApi_1.WikiApi.setLogging(false); // In order to block logging of async querries that have been sended
                         return Agents_1.backtracePath(startPage.getTitle(), endPage.getTitle(), parentMap);
                     }
@@ -41,9 +39,9 @@ class BfsAgent {
                      *  in 1 thread, it will effect performance.
                      *  So lets querry it with some delay, depending on queue length
                      */
-                    let delay = queue.length * 10; // 10 is here just some magic number, not mathematicly proved to be best,
+                    let delay = queue.length * 10 + linkedPages.length; // 10 is here just some magic number, not mathematicly proved to be best,
                     // just found it with testing, works fine.
-                    setTimeout(() => l.getAllLinkedPages(), delay);
+                    setTimeout(() => l.getAllLinkedPages(true), delay);
                 }
             }
             throw new Error("Path not found");

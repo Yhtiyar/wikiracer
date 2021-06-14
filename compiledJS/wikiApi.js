@@ -29,11 +29,22 @@ class WikiApi {
      *
      * @param title - title of the wikipedia Page
      */
-    static async getAllLinkedPages(title) {
+    static async getAllLinkedPages(title, onlyFirst500) {
         let requestParametrs = generateLinkSearchParams(title);
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
         let response = await requestWithExpBackoff(requestParametrs);
+        let linkedPages = this.parseLinks(response, title);
+        if (onlyFirst500)
+            return linkedPages;
+        while (response.continue) {
+            let tempSearchParams = generateLinkSearchParams(title, response.plcontinue);
+            response = await requestWithExpBackoff(tempSearchParams);
+            linkedPages = linkedPages.concat(this.parseLinks(response, title));
+        }
+        return linkedPages;
+    }
+    static parseLinks(response, title) {
         try {
             let linkedPages = new Array();
             let pages = response.query.pages;
@@ -54,6 +65,7 @@ class WikiApi {
     }
 }
 exports.WikiApi = WikiApi;
+WikiApi.logging = false;
 const API_URL = "https://en.wikipedia.org/w/api.php?";
 /**
  * User-Agent header,
@@ -72,8 +84,8 @@ function delay(ms) {
  * represents links of the page.
  * @param title - page title
  */
-function generateLinkSearchParams(title) {
-    return new URLSearchParams({
+function generateLinkSearchParams(title, plcontinue) {
+    let params = new URLSearchParams({
         origin: "*",
         action: "query",
         format: "json",
@@ -82,6 +94,9 @@ function generateLinkSearchParams(title) {
         plnamespace: "0",
         titles: title,
     });
+    if (plcontinue)
+        params.append("plcontinue", plcontinue);
+    return params;
 }
 /**
  * Makes request to the API with given parameters

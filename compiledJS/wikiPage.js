@@ -26,10 +26,10 @@ class wikiPage {
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
      */
-    async getAllLinkedPages() {
+    async getAllLinkedPages(onlyFirst500) {
         if (this.links != undefined)
             return this.links;
-        return wikiApi_1.WikiApi.getAllLinkedPages(this.title).then(res => {
+        return wikiApi_1.WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
             this.links = res;
             return res;
         });

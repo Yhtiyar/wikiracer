@@ -25,7 +25,7 @@ export abstract class LogicalAgent implements Agent {
      * @remark
      * For better performance, please use uniform distrubution [0, 100] as answer
      * 0 - closest
-     * 1 - farthest
+     * 100 - farthest
      * @param l - wikipedia page
      * @param r - wikipedia page
      */

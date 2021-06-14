@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
  */
 export abstract class WikiApi {
 
-    private static logging : boolean;
+    private static logging = false;
 
     /**
      * Enables logging of the requests' informations if
@@ -28,13 +28,27 @@ export abstract class WikiApi {
      *  
      * @param title - title of the wikipedia Page
      */
-    static async getAllLinkedPages(title : string) : Promise<wikiPage[]> {
+    static async getAllLinkedPages(title : string, onlyFirst500? : boolean) : Promise<wikiPage[]> {
         let  requestParametrs = generateLinkSearchParams(title);
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
 
         let response = await requestWithExpBackoff(requestParametrs);
+        
+        let linkedPages = this.parseLinks(response, title);
 
+        if (onlyFirst500) return linkedPages;
+
+        while (response.continue) {
+            let tempSearchParams = generateLinkSearchParams(title, response.plcontinue);
+            response = await requestWithExpBackoff(tempSearchParams);
+            linkedPages = linkedPages.concat(this.parseLinks(response, title));
+        }
+       
+        return linkedPages;
+    }
+
+    private static parseLinks(response : any, title : string) : wikiPage[]{
         try {
             let linkedPages = new Array<wikiPage>();
             let pages = response.query.pages;
@@ -82,8 +96,8 @@ function delay(ms: number) {
  * represents links of the page.
  * @param title - page title
  */
-function generateLinkSearchParams(title : string) {
-   return new URLSearchParams({
+function generateLinkSearchParams(title : string, plcontinue? : string) {
+   let params =  new URLSearchParams({
         origin: "*",
         action: "query",
         format: "json",
@@ -92,6 +106,9 @@ function generateLinkSearchParams(title : string) {
         plnamespace : "0",      //Articles/Pages, see https://en.wikipedia.org/wiki/Wikipedia:Namespace
         titles: title,
     });
+    if (plcontinue)
+        params.append("plcontinue", plcontinue);
+    return params;
 }
 
 /**
@@ -128,4 +145,5 @@ async function requestWithExpBackoff(searchParams : URLSearchParams) {
         }
     }
 }
+
 

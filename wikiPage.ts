@@ -29,10 +29,10 @@ export class wikiPage {
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
      */
-    async getAllLinkedPages() : Promise<wikiPage[]>{
+    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<wikiPage[]>{
         if (this.links != undefined)
             return this.links;
-        return WikiApi.getAllLinkedPages(this.title).then(res => {
+        return WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
             this.links = res;
             return res;
         }) 
