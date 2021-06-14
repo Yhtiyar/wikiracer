@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PriorityQueue = void 0;
 /**
  * Heap based priority queue, priority is from smaller one to bigger
  *
@@ -59,3 +61,4 @@ class PriorityQueue {
         return item.value;
     }
 }
+exports.PriorityQueue = PriorityQueue;

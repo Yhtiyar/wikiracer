@@ -1,7 +1,7 @@
 import { Agent, backtracePath } from "./Agents";
 import { wikiPage } from "../wikiPage";
 import { WikiApi } from "../wikiApi";
-
+import {PriorityQueue} from './PriorityQueue';
 /**
  * Same as {@link BfsAgent}, but prority queue used, to 
  * make logical search.
@@ -29,16 +29,19 @@ export abstract class LogicalAgent implements Agent {
      * @param l - wikipedia page
      * @param r - wikipedia page
      */
-    abstract familiarityDistance(l : wikiPage, r : wikiPage) : number;
+    abstract familiarityDistance(l : wikiPage, r : wikiPage) : Promise<number>;
     
     /**
      *  Please @see {@link BfsAgent run} method, for explanation
      */
-    run = async(startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
-        let visitedMap = new Map <String, Boolean>();
+    async run(startPage: wikiPage, endPage: wikiPage): Promise<string[]> {
+        let visitedMap = new Map <string, boolean>();
         let queue = new PriorityQueue<wikiPage>();
-        let parentMap = new Map<String, String>();
+        let parentMap = new Map<string, string>();
 
+        let dist = await this.familiarityDistance(startPage, endPage);
+        console.log(dist);
+        queue.push(startPage, dist)
         while(queue.size() > 0) {
             let toVisit = queue.pop();
 
@@ -46,13 +49,12 @@ export abstract class LogicalAgent implements Agent {
                 throw new Error("Something went wrong, toVisit is null");
             }
 
-            if (visitedMap.get(toVisit.getTitle()))
-                continue;
-            
-            let linkedPages = await toVisit.getAllLinkedPages();
+            let linkedPages = await toVisit.getAllLinkedPages(true);
+
             for (const l of linkedPages) {
-                if (visitedMap.get(l.getTitle()))
-                     continue;
+                if (visitedMap.get(l.getTitle()))       
+                    continue;
+                visitedMap.set(l.getTitle(), true);
                 parentMap.set(l.getTitle(), toVisit.getTitle());
 
                 if (l.getTitle() == endPage.getTitle()) {
@@ -60,19 +62,16 @@ export abstract class LogicalAgent implements Agent {
                     return backtracePath(startPage.getTitle(), endPage.getTitle(), parentMap);
                 }
                
-                let distance = this.familiarityDistance(toVisit, endPage);
+                let distance = await this.familiarityDistance(l, endPage);
+                console.log(l.getTitle() + "="+ distance);
                 queue.push(l, distance);
-                let best_distance = queue.frontPriority();
-                if (best_distance == null)
-                    throw new Error("p_queue front prority is null");
-                let delta = distance - best_distance; 
-                
-                setTimeout(()=> l.getAllLinkedPages(), delta * 10)
+                                
+               // setTimeout(()=> {l.getAllLinkedPages(true), l.getCategories()}, queue.size() * 15000)
                 
             }
         }
 
-        throw new Error("Method not implemented.");
+        throw new Error("Path not found.");
     }
     
 }

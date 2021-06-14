@@ -48,6 +48,35 @@ export abstract class WikiApi {
         return linkedPages;
     }
 
+    static async getAllCategories(title : string) : Promise<string[]> {
+        let requestParametrs = generateCategorySearchParams(title);
+        if (this.logging)
+            console.log(`requesting categories of ${title}`);
+        let response = await requestWithExpBackoff(requestParametrs);
+
+        let categories = this.parseCategories(response, title);
+
+        return categories;
+    }
+
+    private static parseCategories(response : any, title : string) : string[] {
+        try {
+            let categories = new Array<string>();
+            let pages = response.query.pages;
+            for (let p in pages) {
+                for (let category of pages[p].categories)
+                    categories.push(category.title);
+            }
+            if (this.logging)
+                console.log(`got inner categories of: ${title}`)
+            return categories;
+        }
+        catch(err) {
+            if (this.logging)
+                console.log(`Can't get inner categories of: ${title}, probably page is empty`);
+            return [];
+        }
+    }
     private static parseLinks(response : any, title : string) : wikiPage[]{
         try {
             let linkedPages = new Array<wikiPage>();
@@ -67,10 +96,6 @@ export abstract class WikiApi {
             return [];
         }
     }
-
-    //static async getAllCategories(title : string) : Promise<string[]> {
-        
-    //}
 
 }
 
@@ -110,6 +135,18 @@ function generateLinkSearchParams(title : string, plcontinue? : string) {
         params.append("plcontinue", plcontinue);
     return params;
 }
+
+function generateCategorySearchParams(title : string) {
+    let params =  new URLSearchParams({
+         origin: "*",
+         action: "query",
+         format: "json",
+         prop: "categories",
+         cllimit:"500",          //number of categories, 500-Max limit.
+         titles: title,
+     });
+     return params;
+ }
 
 /**
  * Makes request to the API with given parameters

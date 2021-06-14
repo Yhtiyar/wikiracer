@@ -5,8 +5,9 @@ export interface Agent {
 }
 
 export {BfsAgent} from './BfsAgent';
-export {RandomAgent} from './RandomAgent'
-
+export {RandomAgent} from './RandomAgent';
+export {LogicalAgent} from './LogicalAgent';
+export {Agent_L} from './Agent_L';
 /**
  * Builds path from start url to end url with the given parent-relation map
  * 

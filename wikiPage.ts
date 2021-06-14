@@ -2,12 +2,12 @@ import {WikiApi} from './wikiApi';
 
 const WIKI_URL = "https://en.wikipedia.org/wiki/";
 /**
- * Represents the wikipedia page.
+ * Represents the wikipedia page. Implements api methods
  */
 export class wikiPage {
-    private links? : wikiPage[];
     private title : string;
-
+    private links? : wikiPage[];
+    private categories? : string[];
     /**
      * Creates new wikiPage
      * @param title - title of the wikipedia page
@@ -29,7 +29,7 @@ export class wikiPage {
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
      */
-    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<wikiPage[]>{
+    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<wikiPage[]> {
         if (this.links != undefined)
             return this.links;
         return WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
@@ -38,6 +38,15 @@ export class wikiPage {
         }) 
     }
     
+    async getCategories() : Promise<string[]> {
+        if (this.categories != undefined)
+            return this.categories;
+        return WikiApi.getAllCategories(this.title).then(res => {
+            this.categories = res.map(el => el.slice(9));  //Removing "Category:" prefix
+            return this.categories;
+        })
+    }
+
     /**
      * URL to the wikipedia page
      * @param title -  title of the page

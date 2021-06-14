@@ -1,7 +1,8 @@
-import {Agent, BfsAgent, RandomAgent} from './agents/Agents';
+import {Agent, BfsAgent, RandomAgent, Agent_L} from './agents/Agents';
 import { wikiPage } from './wikiPage';
-import { WikiApi } from './wikiApi';
 import { ArgumentParser } from 'argparse';
+import { WikiApi } from './wikiApi';
+
 
 function parseTitle(url : string) : string {
     url = decodeURI(url);
@@ -52,7 +53,7 @@ async function runTest(agent : Agent, test : Test) {
     return await agent.run(new wikiPage(parseTitle(test.startUrl)), new wikiPage(parseTitle(test.endUrl)));
 }
 
-async function runBenchmark(agent : Agent, testFrom : number, testEnd : number) {
+async function runBenchmarkOn(agent : Agent, testFrom : number, testEnd : number) {
     console.time("Passed all in:");
     for (let i = testFrom; i < testEnd; i++) { 
         console.time("Passed subtest in:");
@@ -70,21 +71,29 @@ const argParser = new ArgumentParser({
     description : "benchmark"
 });
 
-argParser.add_argument("--agent", {choices : ["bfs", "random"],  required : true});
+argParser.add_argument("--agent",      {choices : ["bfs", "random", "agent_l"],  required : true});
 argParser.add_argument("--complexity", {choices : ["easy", "medium", "hard"], required : true});
 
 const args = argParser.parse_args();
 
 let agent : Agent;
 switch(args.agent) {
-    case "bfs" : agent = new BfsAgent(); break;
-    case "random" : agent = new RandomAgent(); break; 
-    default : throw new Error("Unknown agent")
+    case "bfs" : 
+        agent = new BfsAgent(); 
+        break;
+    case "random" : 
+        agent = new RandomAgent(); 
+        break; 
+    case "agent_l" : 
+        agent = new Agent_L();
+        break;
+    default : 
+        throw new Error("Unknown agent")
 }
 
 switch(args.complexity) {
-    case "easy" : runBenchmark(agent, 0, 3); break;
-    case "medium" : runBenchmark(agent, 3, 5); break;
-    case "hard" : runBenchmark(agent, 6, 9); break;
+    case "easy" : runBenchmarkOn(agent, 0, 3); break;
+    case "medium" : runBenchmarkOn(agent, 3, 5); break;
+    case "hard" : runBenchmarkOn(agent, 6, 9); break;
 }
 

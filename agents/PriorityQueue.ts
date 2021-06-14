@@ -10,7 +10,7 @@ interface HeapNode<T> {
  * 
  * Code is modified from here: @see https://itnext.io/priority-queue-in-typescript-6ef23116901
  */
-class PriorityQueue<T> {
+export class PriorityQueue<T> {
     heap: HeapNode<T>[] = []
 
     //Heap operations

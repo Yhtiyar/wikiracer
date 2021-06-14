@@ -44,6 +44,32 @@ class WikiApi {
         }
         return linkedPages;
     }
+    static async getAllCategories(title) {
+        let requestParametrs = generateCategorySearchParams(title);
+        if (this.logging)
+            console.log(`requesting categories of ${title}`);
+        let response = await requestWithExpBackoff(requestParametrs);
+        let categories = this.parseCategories(response, title);
+        return categories;
+    }
+    static parseCategories(response, title) {
+        try {
+            let categories = new Array();
+            let pages = response.query.pages;
+            for (let p in pages) {
+                for (let category of pages[p].categories)
+                    categories.push(category.title);
+            }
+            if (this.logging)
+                console.log(`got inner categories of: ${title}`);
+            return categories;
+        }
+        catch (err) {
+            if (this.logging)
+                console.log(`Can't get inner categories of: ${title}, probably page is empty`);
+            return [];
+        }
+    }
     static parseLinks(response, title) {
         try {
             let linkedPages = new Array();
@@ -96,6 +122,17 @@ function generateLinkSearchParams(title, plcontinue) {
     });
     if (plcontinue)
         params.append("plcontinue", plcontinue);
+    return params;
+}
+function generateCategorySearchParams(title) {
+    let params = new URLSearchParams({
+        origin: "*",
+        action: "query",
+        format: "json",
+        prop: "categories",
+        cllimit: "500",
+        titles: title,
+    });
     return params;
 }
 /**

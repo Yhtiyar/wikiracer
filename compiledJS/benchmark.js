@@ -22,7 +22,7 @@ const HITLER = "https://en.wikipedia.org/wiki/Adolf_Hitler";
 const UNITED_NATIONS = "https://en.wikipedia.org/wiki/United_Nations";
 const RUSSIA = "https://en.wikipedia.org/wiki/Russia";
 //Medium
-const TURKMENISTAN = "https://en.wikipedia.org/wiki/T%C3%BCrkmenabat";
+const TURKMENABAT = "https://en.wikipedia.org/wiki/T%C3%BCrkmenabat";
 const BOF_KURSK = "https://en.wikipedia.org/wiki/Battle_of_Kursk";
 const ALHOREZMI = "https://en.wikipedia.org/wiki/Muhammad_ibn_Musa_al-Khwarizmi";
 //extremely hard 
@@ -34,7 +34,7 @@ let tests = [];
 tests.push(new Test("https://en.wikipedia.org/wiki/The_Family_Corleone", HITLER));
 tests.push(new Test("https://en.wikipedia.org/wiki/ANSI_C", UNITED_NATIONS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Zigzag", RUSSIA));
-tests.push(new Test("https://en.wikipedia.org/wiki/PCC_Community_Markets", TURKMENISTAN));
+tests.push(new Test("https://en.wikipedia.org/wiki/PCC_Community_Markets", TURKMENABAT));
 tests.push(new Test("https://en.wikipedia.org/wiki/Beyond_the_Sixth_Seal", BOF_KURSK));
 tests.push(new Test("https://en.wikipedia.org/wiki/CORFO", ALHOREZMI));
 tests.push(new Test("https://en.wikipedia.org/wiki/Ashbory_bass", BANANAMAN));
@@ -43,7 +43,7 @@ tests.push(new Test("https://en.wikipedia.org/wiki/Isomer_(Proarticulata)", MYST
 async function runTest(agent, test) {
     return await agent.run(new wikiPage_1.wikiPage(parseTitle(test.startUrl)), new wikiPage_1.wikiPage(parseTitle(test.endUrl)));
 }
-async function runBenchmark(agent, testFrom, testEnd) {
+async function runBenchmarkOn(agent, testFrom, testEnd) {
     console.time("Passed all in:");
     for (let i = testFrom; i < testEnd; i++) {
         console.time("Passed subtest in:");
@@ -58,7 +58,7 @@ async function runBenchmark(agent, testFrom, testEnd) {
 const argParser = new argparse_1.ArgumentParser({
     description: "benchmark"
 });
-argParser.add_argument("--agent", { choices: ["bfs", "random"], required: true });
+argParser.add_argument("--agent", { choices: ["bfs", "random", "agent_l"], required: true });
 argParser.add_argument("--complexity", { choices: ["easy", "medium", "hard"], required: true });
 const args = argParser.parse_args();
 let agent;
@@ -69,16 +69,20 @@ switch (args.agent) {
     case "random":
         agent = new Agents_1.RandomAgent();
         break;
-    default: throw new Error("Unknown agent");
+    case "agent_l":
+        agent = new Agents_1.Agent_L();
+        break;
+    default:
+        throw new Error("Unknown agent");
 }
 switch (args.complexity) {
     case "easy":
-        runBenchmark(agent, 0, 3);
+        runBenchmarkOn(agent, 0, 3);
         break;
     case "medium":
-        runBenchmark(agent, 3, 5);
+        runBenchmarkOn(agent, 3, 5);
         break;
     case "hard":
-        runBenchmark(agent, 6, 9);
+        runBenchmarkOn(agent, 6, 9);
         break;
 }

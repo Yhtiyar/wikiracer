@@ -4,7 +4,7 @@ exports.wikiPage = void 0;
 const wikiApi_1 = require("./wikiApi");
 const WIKI_URL = "https://en.wikipedia.org/wiki/";
 /**
- * Represents the wikipedia page.
+ * Represents the wikipedia page. Implements api methods
  */
 class wikiPage {
     /**
@@ -32,6 +32,14 @@ class wikiPage {
         return wikiApi_1.WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
             this.links = res;
             return res;
+        });
+    }
+    async getCategories() {
+        if (this.categories != undefined)
+            return this.categories;
+        return wikiApi_1.WikiApi.getAllCategories(this.title).then(res => {
+            this.categories = res.map(el => el.slice(9)); //Removing "Category:" prefix
+            return this.categories;
         });
     }
     /**
