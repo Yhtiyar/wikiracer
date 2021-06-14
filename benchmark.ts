@@ -26,7 +26,7 @@ const HITLER = "https://en.wikipedia.org/wiki/Adolf_Hitler"
 const UNITED_NATIONS = "https://en.wikipedia.org/wiki/United_Nations";
 const RUSSIA = "https://en.wikipedia.org/wiki/Russia"
 //Medium
-const TURKMENISTAN = "https://en.wikipedia.org/wiki/Turkmenistan"
+const TURKMENABAT = "https://en.wikipedia.org/wiki/T%C3%BCrkmenabat"
 const BOF_KURSK = "https://en.wikipedia.org/wiki/Battle_of_Kursk";
 const ALHOREZMI = "https://en.wikipedia.org/wiki/Muhammad_ibn_Musa_al-Khwarizmi";
 //extremely hard 
@@ -40,7 +40,7 @@ tests.push(new Test("https://en.wikipedia.org/wiki/The_Family_Corleone", HITLER)
 tests.push(new Test("https://en.wikipedia.org/wiki/ANSI_C", UNITED_NATIONS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Zigzag", RUSSIA));
 
-tests.push(new Test("https://en.wikipedia.org/wiki/PCC_Community_Markets", TURKMENISTAN));
+tests.push(new Test("https://en.wikipedia.org/wiki/PCC_Community_Markets", TURKMENABAT));
 tests.push(new Test("https://en.wikipedia.org/wiki/Beyond_the_Sixth_Seal", BOF_KURSK));
 tests.push(new Test("https://en.wikipedia.org/wiki/CORFO", ALHOREZMI));
 
