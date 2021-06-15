@@ -1,0 +1,29 @@
+Found in 8 steps
+https://en.wikipedia.org/wiki/PCC%20Community%20Markets
+https://en.wikipedia.org/wiki/Trader%20Joe's
+https://en.wikipedia.org/wiki/California
+https://en.wikipedia.org/wiki/Burbank,%20California
+https://en.wikipedia.org/wiki/Azerbaijan
+https://en.wikipedia.org/wiki/Baku
+https://en.wikipedia.org/wiki/Ashgabat
+https://en.wikipedia.org/wiki/T%C3%BCrkmenabat
+Passed subtest in:: 2:00.100 (m:ss.mmm)
+Found in 6 steps
+https://en.wikipedia.org/wiki/Beyond%20the%20Sixth%20Seal
+https://en.wikipedia.org/wiki/United%20States
+https://en.wikipedia.org/wiki/Egypt
+https://en.wikipedia.org/wiki/Azerbaijan
+https://en.wikipedia.org/wiki/Europe
+https://en.wikipedia.org/wiki/Battle%20of%20Kursk
+Passed subtest in:: 39.399s
+Found in 8 steps
+https://en.wikipedia.org/wiki/CORFO
+https://en.wikipedia.org/wiki/Chile
+https://en.wikipedia.org/wiki/Francis%20Drake
+https://en.wikipedia.org/wiki/Elizabeth%20I
+https://en.wikipedia.org/wiki/Boethius
+https://en.wikipedia.org/wiki/Avicenna
+https://en.wikipedia.org/wiki/Abu%20Ma'shar
+https://en.wikipedia.org/wiki/Muhammad%20ibn%20Musa%20al-Khwarizmi
+Passed subtest in:: 1:18.957 (m:ss.mmm)
+Passed all in:: 3:58.459 (m:ss.mmm)

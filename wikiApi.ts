@@ -1,4 +1,4 @@
-import { wikiPage } from "./wikiPage";
+import { WikiPage } from "./wikiPage";
 import fetch from 'node-fetch'
 
 /**
@@ -28,7 +28,7 @@ export abstract class WikiApi {
      *  
      * @param title - title of the wikipedia Page
      */
-    static async getAllLinkedPages(title : string, onlyFirst500? : boolean) : Promise<wikiPage[]> {
+    static async getAllLinkedPages(title : string, onlyFirst500? : boolean) : Promise<WikiPage[]> {
         let  requestParametrs = generateLinkSearchParams(title);
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
@@ -77,13 +77,13 @@ export abstract class WikiApi {
             return [];
         }
     }
-    private static parseLinks(response : any, title : string) : wikiPage[]{
+    private static parseLinks(response : any, title : string) : WikiPage[]{
         try {
-            let linkedPages = new Array<wikiPage>();
+            let linkedPages = new Array<WikiPage>();
             let pages = response.query.pages;
             for (let p in pages) {
                 for (let l of pages[p].links) {
-                    linkedPages.push(new wikiPage(l.title));
+                    linkedPages.push(new WikiPage(l.title));
                 }
             }
             if (this.logging)

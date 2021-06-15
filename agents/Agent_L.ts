@@ -1,5 +1,5 @@
 import {LogicalAgent} from './Agents';
-import { wikiPage } from '../wikiPage';
+import { WikiPage } from '../wikiPage';
 
 
 export class Agent_L extends LogicalAgent {
@@ -38,7 +38,7 @@ export class Agent_L extends LogicalAgent {
         return dp[a.length - 1][b.length - 1];
     }
 
-    public async familiarityDistance(l: wikiPage, r: wikiPage): Promise<number> {
+    public async familiarityDistance(l: WikiPage, r: WikiPage): Promise<number> {
         let distanceSum = 10;
         let lCategories = await l.getCategories();
         let rCategories = await r.getCategories();

@@ -1,17 +1,6 @@
 import {Agent, BfsAgent, RandomAgent, Agent_L, Agent_C} from './agents/Agents';
-import { wikiPage } from './wikiPage';
+import { WikiPage } from './wikiPage';
 import { ArgumentParser } from 'argparse';
-import { WikiApi } from './wikiApi';
-
-
-function parseTitle(url : string) : string {
-    url = decodeURI(url);
-    url = url.replace(/_/g, " ")
-    let splitted = url.split('/wiki/');
-    if (splitted.length !== 2)
-        throw new Error(`Probably not wiki url : ${url}`);
-    return splitted[1];
-}
 
 class Test {
     startUrl : string;
@@ -49,22 +38,26 @@ tests.push(new Test("https://en.wikipedia.org/wiki/Ashbory_bass", BANANAMAN));
 tests.push(new Test("https://en.wikipedia.org/wiki/1970_NHL_Amateur_Draft", HOT_POCKETS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Isomer_(Proarticulata)", MYSTERY_SEEKER));
 
+
 async function runTest(agent : Agent, test : Test) {
-    return await agent.run(new wikiPage(parseTitle(test.startUrl)), new wikiPage(parseTitle(test.endUrl)));
+    let startPage = new WikiPage(WikiPage.parseTitle(test.startUrl));
+    let endPage = new WikiPage(WikiPage.parseTitle(test.endUrl));
+    return await agent.run(startPage, endPage);
 }
 
 async function runBenchmarkOn(agent : Agent, testFrom : number, testEnd : number) {
     console.time("Passed all in:");
     for (let i = testFrom; i < testEnd; i++) { 
         console.time("Passed subtest in:");
+
         let res = await runTest(agent, tests[i]);
         console.log(`Found in ${res.length} steps`)
         res.forEach(el => console.log(el));
+
         console.timeEnd("Passed subtest in:");
     }
     console.timeEnd("Passed all in:");
-    process.exit(0);
-    
+    process.exit(0);   //In order to close program without waiting for async requests that have been sended
 }
 
 const argParser = new ArgumentParser({
@@ -112,4 +105,3 @@ switch(args.complexity) {
         runBenchmarkOn(agent, 6, 9); 
         break;
 }
-

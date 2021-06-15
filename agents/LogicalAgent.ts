@@ -1,5 +1,5 @@
 import { Agent, backtracePath } from "./Agents";
-import { wikiPage } from "../wikiPage";
+import { WikiPage } from "../wikiPage";
 import { WikiApi } from "../wikiApi";
 import {PriorityQueue} from './PriorityQueue';
 /**
@@ -29,14 +29,19 @@ export abstract class LogicalAgent implements Agent {
      * @param l - wikipedia page
      * @param r - wikipedia page
      */
-    abstract familiarityDistance(l : wikiPage, r : wikiPage) : Promise<number>;
+    abstract familiarityDistance(l : WikiPage, r : WikiPage) : Promise<number>;
     
+    private fastMode = true;
+    public turnOffFastMode() {
+        this.fastMode = false;
+    }
+
     /**
      *  Please @see {@link BfsAgent run} method, for explanation
      */
-    async run(startPage: wikiPage, endPage: wikiPage): Promise<string[]> {
+    async run(startPage: WikiPage, endPage: WikiPage): Promise<string[]> {
         let visitedMap = new Map <string, boolean>();
-        let queue = new PriorityQueue<wikiPage>();
+        let queue = new PriorityQueue<WikiPage>();
         let parentMap = new Map<string, string>();
 
         let dist = await this.familiarityDistance(startPage, endPage);
@@ -49,7 +54,7 @@ export abstract class LogicalAgent implements Agent {
                 throw new Error("Something went wrong, toVisit is null");
             }
 
-            let linkedPages = await toVisit.getAllLinkedPages(true);
+            let linkedPages = await toVisit.getAllLinkedPages(this.fastMode);
 
             for (let i = 0; i < linkedPages.length; i++) {
                 if (visitedMap.get(linkedPages[i].getTitle()))
@@ -71,7 +76,7 @@ export abstract class LogicalAgent implements Agent {
                 let distance = await this.familiarityDistance(l, endPage);
                 queue.push(l, distance);
                                 
-                setTimeout(()=> {l.getAllLinkedPages(true)}, 200)
+                setTimeout(()=> {l.getAllLinkedPages(this.fastMode)}, 200)
                 
             }
         }

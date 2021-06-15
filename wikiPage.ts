@@ -4,12 +4,12 @@ const WIKI_URL = "https://en.wikipedia.org/wiki/";
 /**
  * Represents the wikipedia page. Implements api methods
  */
-export class wikiPage {
+export class WikiPage {
     private title : string;
-    private links? : wikiPage[];
+    private links? : WikiPage[];
     private categories? : string[];
     /**
-     * Creates new wikiPage
+     * Creates new WikiPage
      * @param title - title of the wikipedia page
      */
     constructor (title : string) {
@@ -24,12 +24,12 @@ export class wikiPage {
     }
     
     /**
-     * All wikiPages that are linked in the current wikiPage
+     * All WikiPages that are linked in the current WikiPage
      * 
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
      */
-    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<wikiPage[]> {
+    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<WikiPage[]> {
         if (this.links != undefined)
             return this.links;
         return WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
@@ -53,6 +53,15 @@ export class wikiPage {
      */
     static makeUrl(title : string) {
         return encodeURI(WIKI_URL + title);
+    }
+
+    static parseTitle(url : string) : string {
+        url = decodeURI(url);
+        url = url.replace(/_/g, " ")
+        let splitted = url.split('/wiki/');
+        if (splitted.length !== 2)
+            throw new Error(`Probably not wiki url : ${url}`);
+        return splitted[1];
     }
 }
 

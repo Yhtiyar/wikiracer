@@ -1,5 +1,5 @@
 import {Agent, backtracePath} from './Agents';
-import {wikiPage} from '../wikiPage';
+import {WikiPage} from '../wikiPage';
 import {WikiApi} from '../wikiApi';
 
 /**
@@ -8,8 +8,14 @@ import {WikiApi} from '../wikiApi';
  * @see https://en.wikipedia.org/wiki/Breadth-first_search for details
  */
 export class BfsAgent implements Agent {
-   
-    run = async(startPage: wikiPage, endPage: wikiPage): Promise<string[]> => {
+  
+    private fastMode = true;
+
+    turnOffFastMode(): void {
+        this.fastMode = false;
+    }
+
+    run = async(startPage: WikiPage, endPage: WikiPage): Promise<string[]> => {
 
         let visitedMap = new Map <string, boolean>();   //For storing if we have visisted given page
         let parentMap = new Map<string, string>();      //For storing of the page where given page is linked, using its title to hash, 
@@ -23,7 +29,7 @@ export class BfsAgent implements Agent {
                 throw new Error ("Unexpected error, actually, it should never happen");
             }
 
-            let linkedPages = await toVisit.getAllLinkedPages(true); 
+            let linkedPages = await toVisit.getAllLinkedPages(this.fastMode); 
 
 
             for (const l of linkedPages) {
@@ -49,7 +55,7 @@ export class BfsAgent implements Agent {
                  */
                 let delay =  queue.length * 10 + linkedPages.length;  // 10 is here just some magic number, not mathematicly proved to be best,
                                                  // just found it with testing, works fine.
-                setTimeout(()=> l.getAllLinkedPages(true), delay);
+                setTimeout(()=> l.getAllLinkedPages(this.fastMode), delay);
             }
         }
         throw new Error("Path not found");

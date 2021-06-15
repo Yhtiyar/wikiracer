@@ -1,7 +1,8 @@
-import { wikiPage } from "../wikiPage";
+import { WikiPage } from "../wikiPage";
 
 export interface Agent {
-    run(startPage : wikiPage, endPage : wikiPage) : Promise<string[]>;
+    run(startPage : WikiPage, endPage : WikiPage) : Promise<string[]>;
+    turnOffFastMode() : void;
 }
 
 export {BfsAgent} from './BfsAgent';
@@ -9,6 +10,7 @@ export {RandomAgent} from './RandomAgent';
 export {LogicalAgent} from './LogicalAgent';
 export {Agent_L} from './Agent_L';
 export {Agent_C} from './Agent_C';
+
 /**
  * Builds path from start url to end url with the given parent-relation map
  * 
@@ -26,7 +28,7 @@ export function backtracePath(startPageUrl: string, endPageUrl: string, parent :
             throw new Error("Cannot backtrace path");
         path.push(nodeParent.toString());
     }
-    return path.reverse().map(title => wikiPage.makeUrl(title));
+    return path.reverse().map(title => WikiPage.makeUrl(title));
 }
 
 
