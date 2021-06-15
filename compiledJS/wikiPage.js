@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.wikiPage = void 0;
+exports.WikiPage = void 0;
 const wikiApi_1 = require("./wikiApi");
 const WIKI_URL = "https://en.wikipedia.org/wiki/";
 /**
  * Represents the wikipedia page. Implements api methods
  */
-class wikiPage {
+class WikiPage {
     /**
-     * Creates new wikiPage
+     * Creates new WikiPage
      * @param title - title of the wikipedia page
      */
     constructor(title) {
@@ -21,7 +21,7 @@ class wikiPage {
         return this.title;
     }
     /**
-     * All wikiPages that are linked in the current wikiPage
+     * All WikiPages that are linked in the current WikiPage
      *
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
@@ -49,5 +49,13 @@ class wikiPage {
     static makeUrl(title) {
         return encodeURI(WIKI_URL + title);
     }
+    static parseTitle(url) {
+        url = decodeURI(url);
+        url = url.replace(/_/g, " ");
+        let splitted = url.split('/wiki/');
+        if (splitted.length !== 2)
+            throw new Error(`Probably not wiki url : ${url}`);
+        return splitted[1];
+    }
 }
-exports.wikiPage = wikiPage;
+exports.WikiPage = WikiPage;

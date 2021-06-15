@@ -1,7 +1,10 @@
 import {LogicalAgent} from './Agents';
 import { WikiPage } from '../wikiPage';
 
-
+/**
+ * Type of Logical agent, which  priorities pages
+ * by their avarage lenenshtein distance between their categories
+ */
 export class Agent_L extends LogicalAgent {
     /**
      * Levenshtein distance, make strings same with minimal cost with insertig,
@@ -38,20 +41,27 @@ export class Agent_L extends LogicalAgent {
         return dp[a.length - 1][b.length - 1];
     }
 
+    /**
+     * Avarage Levenshtein distance between all categories
+     * of given pages.
+     * 
+     * @param l - page 1
+     * @param r - page 2
+     */
     public async familiarityDistance(l: WikiPage, r: WikiPage): Promise<number> {
-        let distanceSum = 10;
+        let distanceSum = 0;
         let lCategories = await l.getCategories();
         let rCategories = await r.getCategories();
+
         for (let lc of lCategories) {
             for (let rc of rCategories) {
                 distanceSum += this.levenshteinDistance(lc, rc);
             }
         }
 
-        let titleDistance = this.levenshteinDistance(l.getTitle(), r.getTitle());
-        if (lCategories.length == 0 || rCategories.length == 0)
-            return titleDistance;
+        let titleDistance = this.levenshteinDistance(l.getTitle(), r.getTitle()); //distance between titles
+        distanceSum += titleDistance;
 
-        return distanceSum / (lCategories.length * rCategories.length);
+        return distanceSum / (lCategories.length * rCategories.length + 1);       //Total sum divided by number of distaces
     }
 }

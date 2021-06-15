@@ -29,7 +29,7 @@ export class WikiPage {
      * @remarks
      * Only one request to the API will be made. Result will be cached in memory
      */
-    async getAllLinkedPages(onlyFirst500? : boolean) : Promise<WikiPage[]> {
+    async getAllLinkedPages(onlyFirst500 : boolean) : Promise<WikiPage[]> {
         if (this.links != undefined)
             return this.links;
         return WikiApi.getAllLinkedPages(this.title, onlyFirst500).then(res => {
@@ -38,6 +38,12 @@ export class WikiPage {
         }) 
     }
     
+    /**
+     * All categories of the given current WikiPage
+     * 
+     * @remarks
+     * Only one request to the API will be made. Result will be cached in memory
+     */
     async getCategories() : Promise<string[]> {
         if (this.categories != undefined)
             return this.categories;
@@ -55,6 +61,11 @@ export class WikiPage {
         return encodeURI(WIKI_URL + title);
     }
 
+    /**
+     * Parses title of the wikipedia article from URL
+     * 
+     * @param url - url of wikipedia article
+     */
     static parseTitle(url : string) : string {
         url = decodeURI(url);
         url = url.replace(/_/g, " ")

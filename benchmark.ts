@@ -10,6 +10,7 @@ class Test {
         this.endUrl = endUrl;
     }
 }
+/** Tests  for benchmarking  **/
 
 //very easy to find
 const HITLER = "https://en.wikipedia.org/wiki/Adolf_Hitler"
@@ -38,6 +39,7 @@ tests.push(new Test("https://en.wikipedia.org/wiki/Ashbory_bass", BANANAMAN));
 tests.push(new Test("https://en.wikipedia.org/wiki/1970_NHL_Amateur_Draft", HOT_POCKETS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Isomer_(Proarticulata)", MYSTERY_SEEKER));
 
+/** End of tests for benchmarking **/
 
 async function runTest(agent : Agent, test : Test) {
     let startPage = new WikiPage(WikiPage.parseTitle(test.startUrl));

@@ -29,6 +29,6 @@ function backtracePath(startPageUrl, endPageUrl, parent) {
             throw new Error("Cannot backtrace path");
         path.push(nodeParent.toString());
     }
-    return path.reverse().map(title => wikiPage_1.wikiPage.makeUrl(title));
+    return path.reverse().map(title => wikiPage_1.WikiPage.makeUrl(title));
 }
 exports.backtracePath = backtracePath;

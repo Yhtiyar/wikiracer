@@ -3,14 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Agents_1 = require("./agents/Agents");
 const wikiPage_1 = require("./wikiPage");
 const argparse_1 = require("argparse");
-function parseTitle(url) {
-    url = decodeURI(url);
-    url = url.replace(/_/g, " ");
-    let splitted = url.split('/wiki/');
-    if (splitted.length !== 2)
-        throw new Error(`Probably not wiki url : ${url}`);
-    return splitted[1];
-}
 class Test {
     constructor(startUrl, endUrl) {
         this.startUrl = startUrl;
@@ -41,7 +33,9 @@ tests.push(new Test("https://en.wikipedia.org/wiki/Ashbory_bass", BANANAMAN));
 tests.push(new Test("https://en.wikipedia.org/wiki/1970_NHL_Amateur_Draft", HOT_POCKETS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Isomer_(Proarticulata)", MYSTERY_SEEKER));
 async function runTest(agent, test) {
-    return await agent.run(new wikiPage_1.wikiPage(parseTitle(test.startUrl)), new wikiPage_1.wikiPage(parseTitle(test.endUrl)));
+    let startPage = new wikiPage_1.WikiPage(wikiPage_1.WikiPage.parseTitle(test.startUrl));
+    let endPage = new wikiPage_1.WikiPage(wikiPage_1.WikiPage.parseTitle(test.endUrl));
+    return await agent.run(startPage, endPage);
 }
 async function runBenchmarkOn(agent, testFrom, testEnd) {
     console.time("Passed all in:");
@@ -53,7 +47,7 @@ async function runBenchmarkOn(agent, testFrom, testEnd) {
         console.timeEnd("Passed subtest in:");
     }
     console.timeEnd("Passed all in:");
-    process.exit(0);
+    process.exit(0); //In order to close program without waiting for async requests that have been sended
 }
 const argParser = new argparse_1.ArgumentParser({
     description: "benchmark"

@@ -27,8 +27,9 @@ export abstract class WikiApi {
      * @see https://en.wikipedia.org/wiki/Wikipedia:Namespace for namespace details
      *  
      * @param title - title of the wikipedia Page
+     * @param onlyFirst500 - if true will only return first 500 links, otherwise all
      */
-    static async getAllLinkedPages(title : string, onlyFirst500? : boolean) : Promise<WikiPage[]> {
+    static async getAllLinkedPages(title : string, onlyFirst500 : boolean) : Promise<WikiPage[]> {
         let  requestParametrs = generateLinkSearchParams(title);
         if (this.logging)
             console.log(`requesting inner links of: ${title}`);
@@ -48,6 +49,11 @@ export abstract class WikiApi {
         return linkedPages;
     }
 
+    /**
+     * Gets all categories of given wikipedia article title
+     * 
+     * @param title  - wikipeadi article title
+     */
     static async getAllCategories(title : string) : Promise<string[]> {
         let requestParametrs = generateCategorySearchParams(title);
         if (this.logging)
@@ -59,6 +65,12 @@ export abstract class WikiApi {
         return categories;
     }
 
+    /**
+     * Parses name of categories from api response
+     * 
+     * @param response - response from api
+     * @param title - title of page, needed for logging
+     */
     private static parseCategories(response : any, title : string) : string[] {
         try {
             let categories = new Array<string>();
@@ -77,6 +89,13 @@ export abstract class WikiApi {
             return [];
         }
     }
+
+    /**
+     * Parses name of linked articles from api responce
+     * 
+     * @param response - response from api
+     * @param title - title of page, needed for logging
+     */
     private static parseLinks(response : any, title : string) : WikiPage[]{
         try {
             let linkedPages = new Array<WikiPage>();
@@ -112,6 +131,11 @@ const HEADERS = {
     "User-Agent"   : " wikiracer/0.1 (https://yhtiyar.github.io; sahatovyhtyyar@gmail.com) generic-library/0.0"
 }
 
+/**
+ * Sleeps for given time
+ * 
+ * @param ms - time in milliseconds
+ */
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
@@ -128,7 +152,7 @@ function generateLinkSearchParams(title : string, plcontinue? : string) {
         format: "json",
         prop:"links",
         pllimit:"500",          //number of links, 500-Max limit.
-        plnamespace : "0",      //Articles/Pages, see https://en.wikipedia.org/wiki/Wikipedia:Namespace
+        plnamespace : "0",      //namespace for Articles/Pages, see https://en.wikipedia.org/wiki/Wikipedia:Namespace
         titles: title,
     });
     if (plcontinue)
@@ -136,6 +160,15 @@ function generateLinkSearchParams(title : string, plcontinue? : string) {
     return params;
 }
 
+/**
+ * Generates url parameters for the API request,
+ * for getting all categories of the given title
+ * 
+ * @see 
+ * https://en.wikipedia.org/w/api.php?action=help&modules=query%2Bcategories
+ * 
+ * @param title - wikipedia article title
+ */
 function generateCategorySearchParams(title : string) {
     let params =  new URLSearchParams({
          origin: "*",

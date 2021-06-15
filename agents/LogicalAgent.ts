@@ -22,10 +22,6 @@ export abstract class LogicalAgent implements Agent {
     /**
      * Familiratity distance, the less it is, the more familiar l and r should be
      * 
-     * @remark
-     * For better performance, please use uniform distrubution [0, 100] as answer
-     * 0 - closest
-     * 100 - farthest
      * @param l - wikipedia page
      * @param r - wikipedia page
      */

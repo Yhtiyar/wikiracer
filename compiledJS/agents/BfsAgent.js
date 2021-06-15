@@ -10,6 +10,7 @@ const wikiApi_1 = require("../wikiApi");
  */
 class BfsAgent {
     constructor() {
+        this.fastMode = true;
         this.run = async (startPage, endPage) => {
             let visitedMap = new Map(); //For storing if we have visisted given page
             let parentMap = new Map(); //For storing of the page where given page is linked, using its title to hash, 
@@ -20,7 +21,7 @@ class BfsAgent {
                 if (!toVisit) {
                     throw new Error("Unexpected error, actually, it should never happen");
                 }
-                let linkedPages = await toVisit.getAllLinkedPages(true);
+                let linkedPages = await toVisit.getAllLinkedPages(this.fastMode);
                 for (const l of linkedPages) {
                     if (visitedMap.get(l.getTitle()))
                         continue;
@@ -41,11 +42,14 @@ class BfsAgent {
                      */
                     let delay = queue.length * 10 + linkedPages.length; // 10 is here just some magic number, not mathematicly proved to be best,
                     // just found it with testing, works fine.
-                    setTimeout(() => l.getAllLinkedPages(true), delay);
+                    setTimeout(() => l.getAllLinkedPages(this.fastMode), delay);
                 }
             }
             throw new Error("Path not found");
         };
+    }
+    turnOffFastMode() {
+        this.fastMode = false;
     }
 }
 exports.BfsAgent = BfsAgent;

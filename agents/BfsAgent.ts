@@ -10,7 +10,6 @@ import {WikiApi} from '../wikiApi';
 export class BfsAgent implements Agent {
   
     private fastMode = true;
-
     turnOffFastMode(): void {
         this.fastMode = false;
     }

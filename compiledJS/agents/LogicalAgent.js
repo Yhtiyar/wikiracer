@@ -20,6 +20,12 @@ const PriorityQueue_1 = require("./PriorityQueue");
  * the less of the result of this function is, the more connected l and r should be.
  */
 class LogicalAgent {
+    constructor() {
+        this.fastMode = true;
+    }
+    turnOffFastMode() {
+        this.fastMode = false;
+    }
     /**
      *  Please @see {@link BfsAgent run} method, for explanation
      */
@@ -34,7 +40,7 @@ class LogicalAgent {
             if (!toVisit) {
                 throw new Error("Something went wrong, toVisit is null");
             }
-            let linkedPages = await toVisit.getAllLinkedPages(true);
+            let linkedPages = await toVisit.getAllLinkedPages(this.fastMode);
             for (let i = 0; i < linkedPages.length; i++) {
                 if (visitedMap.get(linkedPages[i].getTitle()))
                     continue;
@@ -51,7 +57,7 @@ class LogicalAgent {
                 }
                 let distance = await this.familiarityDistance(l, endPage);
                 queue.push(l, distance);
-                setTimeout(() => { l.getAllLinkedPages(true); }, 200);
+                setTimeout(() => { l.getAllLinkedPages(this.fastMode); }, 200);
             }
         }
         throw new Error("Path not found.");

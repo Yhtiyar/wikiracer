@@ -76,7 +76,7 @@ class WikiApi {
             let pages = response.query.pages;
             for (let p in pages) {
                 for (let l of pages[p].links) {
-                    linkedPages.push(new wikiPage_1.wikiPage(l.title));
+                    linkedPages.push(new wikiPage_1.WikiPage(l.title));
                 }
             }
             if (this.logging)
