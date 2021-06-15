@@ -58,8 +58,14 @@ async function runBenchmarkOn(agent, testFrom, testEnd) {
 const argParser = new argparse_1.ArgumentParser({
     description: "benchmark"
 });
-argParser.add_argument("--agent", { choices: ["bfs", "random", "agent_l"], required: true });
-argParser.add_argument("--complexity", { choices: ["easy", "medium", "hard"], required: true });
+argParser.add_argument("--agent", {
+    choices: ["bfs", "random", "agent_l", "agent_c"],
+    required: true
+});
+argParser.add_argument("--complexity", {
+    choices: ["easy", "medium", "hard"],
+    required: true
+});
 const args = argParser.parse_args();
 let agent;
 switch (args.agent) {
@@ -71,6 +77,9 @@ switch (args.agent) {
         break;
     case "agent_l":
         agent = new Agents_1.Agent_L();
+        break;
+    case "agent_c":
+        agent = new Agents_1.Agent_C();
         break;
     default:
         throw new Error("Unknown agent");

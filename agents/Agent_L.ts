@@ -10,9 +10,6 @@ export class Agent_L extends LogicalAgent {
      * @remark
      * These are magic numbers I discovered by testing
      * 
-     * Delete cost = Insert cost = 10
-     * 
-     * Replace cost = 40
      * @see https://en.wikipedia.org/wiki/Levenshtein_distance
      * 
      * @see http://neerc.ifmo.ru/wiki/index.php?title=%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0_%D0%BE_%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%BC_%D1%80%D0%B0%D1%81%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D0%B8,_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%92%D0%B0%D0%B3%D0%BD%D0%B5%D1%80%D0%B0-%D0%A4%D0%B8%D1%88%D0%B5%D1%80%D0%B0

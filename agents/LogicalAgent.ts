@@ -40,7 +40,7 @@ export abstract class LogicalAgent implements Agent {
         let parentMap = new Map<string, string>();
 
         let dist = await this.familiarityDistance(startPage, endPage);
-        console.log(dist);
+      
         queue.push(startPage, dist)
         while(queue.size() > 0) {
             let toVisit = queue.pop();
@@ -50,6 +50,12 @@ export abstract class LogicalAgent implements Agent {
             }
 
             let linkedPages = await toVisit.getAllLinkedPages(true);
+
+            for (let i = 0; i < linkedPages.length; i++) {
+                if (visitedMap.get(linkedPages[i].getTitle()))
+                    continue;
+                setTimeout(() => linkedPages[i].getCategories(), i * 2);
+            }
 
             for (const l of linkedPages) {
                 if (visitedMap.get(l.getTitle()))       
@@ -63,10 +69,9 @@ export abstract class LogicalAgent implements Agent {
                 }
                
                 let distance = await this.familiarityDistance(l, endPage);
-                console.log(l.getTitle() + "="+ distance);
                 queue.push(l, distance);
                                 
-               // setTimeout(()=> {l.getAllLinkedPages(true), l.getCategories()}, queue.size() * 15000)
+                setTimeout(()=> {l.getAllLinkedPages(true)}, 200)
                 
             }
         }

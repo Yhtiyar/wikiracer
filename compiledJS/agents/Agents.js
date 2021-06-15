@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backtracePath = exports.Agent_L = exports.LogicalAgent = exports.RandomAgent = exports.BfsAgent = void 0;
+exports.backtracePath = exports.Agent_C = exports.Agent_L = exports.LogicalAgent = exports.RandomAgent = exports.BfsAgent = void 0;
 const wikiPage_1 = require("../wikiPage");
 var BfsAgent_1 = require("./BfsAgent");
 Object.defineProperty(exports, "BfsAgent", { enumerable: true, get: function () { return BfsAgent_1.BfsAgent; } });
@@ -10,6 +10,8 @@ var LogicalAgent_1 = require("./LogicalAgent");
 Object.defineProperty(exports, "LogicalAgent", { enumerable: true, get: function () { return LogicalAgent_1.LogicalAgent; } });
 var Agent_L_1 = require("./Agent_L");
 Object.defineProperty(exports, "Agent_L", { enumerable: true, get: function () { return Agent_L_1.Agent_L; } });
+var Agent_C_1 = require("./Agent_C");
+Object.defineProperty(exports, "Agent_C", { enumerable: true, get: function () { return Agent_C_1.Agent_C; } });
 /**
  * Builds path from start url to end url with the given parent-relation map
  *

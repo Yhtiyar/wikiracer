@@ -1,4 +1,4 @@
-import {Agent, BfsAgent, RandomAgent, Agent_L} from './agents/Agents';
+import {Agent, BfsAgent, RandomAgent, Agent_L, Agent_C} from './agents/Agents';
 import { wikiPage } from './wikiPage';
 import { ArgumentParser } from 'argparse';
 import { WikiApi } from './wikiApi';
@@ -71,8 +71,15 @@ const argParser = new ArgumentParser({
     description : "benchmark"
 });
 
-argParser.add_argument("--agent",      {choices : ["bfs", "random", "agent_l"],  required : true});
-argParser.add_argument("--complexity", {choices : ["easy", "medium", "hard"], required : true});
+argParser.add_argument("--agent", {
+    choices : ["bfs", "random", "agent_l", "agent_c"],  
+    required : true
+});
+
+argParser.add_argument("--complexity", {
+    choices : ["easy", "medium", "hard"], 
+    required : true
+});
 
 const args = argParser.parse_args();
 
@@ -87,13 +94,22 @@ switch(args.agent) {
     case "agent_l" : 
         agent = new Agent_L();
         break;
+    case "agent_c" :
+        agent = new Agent_C();
+        break;
     default : 
         throw new Error("Unknown agent")
 }
 
 switch(args.complexity) {
-    case "easy" : runBenchmarkOn(agent, 0, 3); break;
-    case "medium" : runBenchmarkOn(agent, 3, 5); break;
-    case "hard" : runBenchmarkOn(agent, 6, 9); break;
+    case "easy" : 
+        runBenchmarkOn(agent, 0, 3);
+        break;
+    case "medium" : 
+        runBenchmarkOn(agent, 3, 5); 
+        break;
+    case "hard" : 
+        runBenchmarkOn(agent, 6, 9); 
+        break;
 }
 
