@@ -31,9 +31,9 @@ const HOT_POCKETS = "https://en.wikipedia.org/wiki/Hot_Pockets";
 const MYSTERY_SEEKER = "https://en.wikipedia.org/wiki/Mystery_Seeker";
 let tests = [];
 //Random start pages
-tests.push(new Test("https://en.wikipedia.org/wiki/The_Family_Corleone", HITLER));
-tests.push(new Test("https://en.wikipedia.org/wiki/ANSI_C", UNITED_NATIONS));
-tests.push(new Test("https://en.wikipedia.org/wiki/Zigzag", RUSSIA));
+tests.push(new Test("https://en.wikipedia.org/wiki/Cycling_at_the_2004_Summer_Paralympics_%E2%80%93_Men%27s_individual_pursuit_(B1%E2%80%933)", HITLER));
+tests.push(new Test("https://en.wikipedia.org/wiki/Asabea_Cropper", UNITED_NATIONS));
+tests.push(new Test("https://en.wikipedia.org/wiki/Sanford%E2%80%93Brown", RUSSIA));
 tests.push(new Test("https://en.wikipedia.org/wiki/PCC_Community_Markets", TURKMENABAT));
 tests.push(new Test("https://en.wikipedia.org/wiki/Beyond_the_Sixth_Seal", BOF_KURSK));
 tests.push(new Test("https://en.wikipedia.org/wiki/CORFO", ALHOREZMI));
@@ -89,7 +89,7 @@ switch (args.complexity) {
         runBenchmarkOn(agent, 0, 3);
         break;
     case "medium":
-        runBenchmarkOn(agent, 3, 5);
+        runBenchmarkOn(agent, 3, 6);
         break;
     case "hard":
         runBenchmarkOn(agent, 6, 9);

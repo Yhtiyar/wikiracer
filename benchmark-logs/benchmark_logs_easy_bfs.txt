@@ -1,0 +1,18 @@
+https://en.wikipedia.org/wiki/Cycling%20at%20the%202004%20Summer%20Paralympics%20%E2%80%93%20Men's%20individual%20pursuit%20(B1%E2%80%933)
+https://en.wikipedia.org/wiki/2004%20Summer%20Paralympics
+https://en.wikipedia.org/wiki/BBC%20News
+https://en.wikipedia.org/wiki/Adolf%20Hitler
+Passed subtest in:: 3.161s
+Found in 4 steps
+https://en.wikipedia.org/wiki/Asabea%20Cropper
+https://en.wikipedia.org/wiki/3Music%20Awards
+https://en.wikipedia.org/wiki/Rocky%20Dawuni
+https://en.wikipedia.org/wiki/United%20Nations
+Passed subtest in:: 1.880s
+Found in 4 steps
+https://en.wikipedia.org/wiki/Sanford%E2%80%93Brown
+https://en.wikipedia.org/wiki/American%20InterContinental%20University
+https://en.wikipedia.org/wiki/Lucerne
+https://en.wikipedia.org/wiki/Russia
+Passed subtest in:: 3.481s
+Passed all in:: 8.524s

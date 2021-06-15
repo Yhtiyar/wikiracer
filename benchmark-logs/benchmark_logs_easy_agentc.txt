@@ -1,0 +1,32 @@
+https://en.wikipedia.org/wiki/Cycling%20at%20the%202004%20Summer%20Paralympics%20%E2%80%93%20Men's%20individual%20pursuit%20(B1%E2%80%933)
+https://en.wikipedia.org/wiki/Kieran%20Modra
+https://en.wikipedia.org/wiki/Bordeaux
+https://en.wikipedia.org/wiki/Benjamin%20Franklin
+https://en.wikipedia.org/wiki/Franklin%20D.%20Roosevelt
+https://en.wikipedia.org/wiki/Adolf%20Hitler
+Passed subtest in:: 34.041s
+Found in 12 steps
+https://en.wikipedia.org/wiki/Asabea%20Cropper
+https://en.wikipedia.org/wiki/Accra
+https://en.wikipedia.org/wiki/Tunisia
+https://en.wikipedia.org/wiki/Iran
+https://en.wikipedia.org/wiki/Alexander%20the%20Great
+https://en.wikipedia.org/wiki/Aristotle
+https://en.wikipedia.org/wiki/Confucius
+https://en.wikipedia.org/wiki/Jean-Jacques%20Rousseau
+https://en.wikipedia.org/wiki/Alexander%20Pushkin
+https://en.wikipedia.org/wiki/Jean%20Sibelius
+https://en.wikipedia.org/wiki/United%20Nations%20General%20Assembly
+https://en.wikipedia.org/wiki/United%20Nations
+Passed subtest in:: 19:36.845 (m:ss.mmm)
+Found in 8 steps
+https://en.wikipedia.org/wiki/Sanford%E2%80%93Brown
+https://en.wikipedia.org/wiki/United%20States
+https://en.wikipedia.org/wiki/Egypt
+https://en.wikipedia.org/wiki/Armenia
+https://en.wikipedia.org/wiki/Belarus
+https://en.wikipedia.org/wiki/Kazakhstan
+https://en.wikipedia.org/wiki/Gabon
+https://en.wikipedia.org/wiki/Russia
+Passed subtest in:: 10:16.290 (m:ss.mmm)
+Passed all in:: 30:27.181 (m:ss.mmm)
