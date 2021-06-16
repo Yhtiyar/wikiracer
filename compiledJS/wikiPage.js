@@ -34,6 +34,12 @@ class WikiPage {
             return res;
         });
     }
+    /**
+     * All categories of the given current WikiPage
+     *
+     * @remarks
+     * Only one request to the API will be made. Result will be cached in memory
+     */
     async getCategories() {
         if (this.categories != undefined)
             return this.categories;
@@ -49,6 +55,11 @@ class WikiPage {
     static makeUrl(title) {
         return encodeURI(WIKI_URL + title);
     }
+    /**
+     * Parses title of the wikipedia article from URL
+     *
+     * @param url - url of wikipedia article
+     */
     static parseTitle(url) {
         url = decodeURI(url);
         url = url.replace(/_/g, " ");

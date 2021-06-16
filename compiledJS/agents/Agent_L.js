@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Agent_L = void 0;
 const Agents_1 = require("./Agents");
+/**
+ * Type of Logical agent, which  priorities pages
+ * by their avarage lenenshtein distance between their categories
+ */
 class Agent_L extends Agents_1.LogicalAgent {
     /**
      * Levenshtein distance, make strings same with minimal cost with insertig,
@@ -32,8 +36,15 @@ class Agent_L extends Agents_1.LogicalAgent {
         }
         return dp[a.length - 1][b.length - 1];
     }
+    /**
+     * Avarage Levenshtein distance between all categories
+     * of given pages.
+     *
+     * @param l - page 1
+     * @param r - page 2
+     */
     async familiarityDistance(l, r) {
-        let distanceSum = 10;
+        let distanceSum = 0;
         let lCategories = await l.getCategories();
         let rCategories = await r.getCategories();
         for (let lc of lCategories) {
@@ -41,10 +52,9 @@ class Agent_L extends Agents_1.LogicalAgent {
                 distanceSum += this.levenshteinDistance(lc, rc);
             }
         }
-        let titleDistance = this.levenshteinDistance(l.getTitle(), r.getTitle());
-        if (lCategories.length == 0 || rCategories.length == 0)
-            return titleDistance;
-        return distanceSum / (lCategories.length * rCategories.length);
+        let titleDistance = this.levenshteinDistance(l.getTitle(), r.getTitle()); //distance between titles
+        distanceSum += titleDistance;
+        return distanceSum / (lCategories.length * rCategories.length + 1); //Total sum divided by number of distaces
     }
 }
 exports.Agent_L = Agent_L;

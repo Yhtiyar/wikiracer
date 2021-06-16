@@ -28,6 +28,7 @@ class WikiApi {
      * @see https://en.wikipedia.org/wiki/Wikipedia:Namespace for namespace details
      *
      * @param title - title of the wikipedia Page
+     * @param onlyFirst500 - if true will only return first 500 links, otherwise all
      */
     static async getAllLinkedPages(title, onlyFirst500) {
         let requestParametrs = generateLinkSearchParams(title);
@@ -44,6 +45,11 @@ class WikiApi {
         }
         return linkedPages;
     }
+    /**
+     * Gets all categories of given wikipedia article title
+     *
+     * @param title  - wikipeadi article title
+     */
     static async getAllCategories(title) {
         let requestParametrs = generateCategorySearchParams(title);
         if (this.logging)
@@ -52,6 +58,12 @@ class WikiApi {
         let categories = this.parseCategories(response, title);
         return categories;
     }
+    /**
+     * Parses name of categories from api response
+     *
+     * @param response - response from api
+     * @param title - title of page, needed for logging
+     */
     static parseCategories(response, title) {
         try {
             let categories = new Array();
@@ -70,6 +82,12 @@ class WikiApi {
             return [];
         }
     }
+    /**
+     * Parses name of linked articles from api responce
+     *
+     * @param response - response from api
+     * @param title - title of page, needed for logging
+     */
     static parseLinks(response, title) {
         try {
             let linkedPages = new Array();
@@ -102,6 +120,11 @@ const HEADERS = {
     "Content-Type": "application/json",
     "User-Agent": " wikiracer/0.1 (https://yhtiyar.github.io; sahatovyhtyyar@gmail.com) generic-library/0.0"
 };
+/**
+ * Sleeps for given time
+ *
+ * @param ms - time in milliseconds
+ */
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -124,6 +147,15 @@ function generateLinkSearchParams(title, plcontinue) {
         params.append("plcontinue", plcontinue);
     return params;
 }
+/**
+ * Generates url parameters for the API request,
+ * for getting all categories of the given title
+ *
+ * @see
+ * https://en.wikipedia.org/w/api.php?action=help&modules=query%2Bcategories
+ *
+ * @param title - wikipedia article title
+ */
 function generateCategorySearchParams(title) {
     let params = new URLSearchParams({
         origin: "*",

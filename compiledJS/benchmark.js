@@ -9,6 +9,7 @@ class Test {
         this.endUrl = endUrl;
     }
 }
+/** Tests  for benchmarking  **/
 //very easy to find
 const HITLER = "https://en.wikipedia.org/wiki/Adolf_Hitler";
 const UNITED_NATIONS = "https://en.wikipedia.org/wiki/United_Nations";
@@ -32,6 +33,7 @@ tests.push(new Test("https://en.wikipedia.org/wiki/CORFO", ALHOREZMI));
 tests.push(new Test("https://en.wikipedia.org/wiki/Ashbory_bass", BANANAMAN));
 tests.push(new Test("https://en.wikipedia.org/wiki/1970_NHL_Amateur_Draft", HOT_POCKETS));
 tests.push(new Test("https://en.wikipedia.org/wiki/Isomer_(Proarticulata)", MYSTERY_SEEKER));
+/** End of tests for benchmarking **/
 async function runTest(agent, test) {
     let startPage = new wikiPage_1.WikiPage(wikiPage_1.WikiPage.parseTitle(test.startUrl));
     let endPage = new wikiPage_1.WikiPage(wikiPage_1.WikiPage.parseTitle(test.endUrl));

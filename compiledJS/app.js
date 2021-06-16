@@ -32,14 +32,14 @@ const argParser = new argparse_1.ArgumentParser({
 argParser.add_argument('-s', '--start', {
     help: 'wiki page url, where to start',
     metavar: "startPage",
-    default: "https://en.wikipedia.org/wiki/Superfine_Films"
+    required: true
 });
 argParser.add_argument('-e', '--end', {
     help: 'wiki page url, where to end',
     metavar: "endPage",
-    default: "https://en.wikipedia.org/wiki/Adolf_Hitler"
+    required: true
 });
-argParser.add_argument('-a', '--all', {
+argParser.add_argument('-a', '--agent', {
     help: 'agent name',
     choices: ["bfs", "random", "agent_l", "agent_c"],
     required: true
@@ -47,8 +47,10 @@ argParser.add_argument('-a', '--all', {
 argParser.add_argument('--log', {
     action: 'store_true'
 });
+argParser.add_argument('--disable_fast_mode', {
+    action: 'store_true'
+});
 const args = argParser.parse_args();
-wikiApi_1.WikiApi.setLogging(args.log);
 let agent;
 switch (args.agent) {
     case "bfs":
@@ -66,4 +68,7 @@ switch (args.agent) {
     default:
         throw new Error("Unknown agent");
 }
+wikiApi_1.WikiApi.setLogging(args.log);
+if (args["disable_fast_mode"])
+    agent.turnOffFastMode();
 runWikiRacer(agent, wikiPage_1.WikiPage.parseTitle(args.start), wikiPage_1.WikiPage.parseTitle(args.end));

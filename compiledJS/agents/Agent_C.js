@@ -3,6 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Agent_C = void 0;
 const LogicalAgent_1 = require("./LogicalAgent");
 class Agent_C extends LogicalAgent_1.LogicalAgent {
+    /**
+     * Returns number of categories in which both
+     * pages are presented.
+     *
+     * @param l -  page 1
+     * @param r -  page 2
+     */
     async familiarityDistance(l, r) {
         let sameCategoryCount = 0;
         let lCategories = await l.getCategories();
