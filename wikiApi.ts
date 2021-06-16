@@ -205,7 +205,7 @@ async function requestWithExpBackoff(searchParams : URLSearchParams) {
     let expCofficient = 0;
     while (true) {
         try {
-            let k = Math.random() * (1 << expCofficient);
+            let k = Math.random() * (1 << expCofficient);   //2^expCofficient
             delay(k * delayCofficient);
             let ans = await apiRequest(searchParams);
             return ans;

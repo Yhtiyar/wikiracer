@@ -3,7 +3,7 @@ import { WikiPage } from "../wikiPage";
 
 export class Agent_C extends LogicalAgent {
     /**
-     * Returns number of categories in which both 
+     * Returns 100 minus number of categories in which both 
      * pages are presented.
      * 
      * @param l -  page 1

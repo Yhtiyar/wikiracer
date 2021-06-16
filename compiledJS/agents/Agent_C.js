@@ -4,7 +4,7 @@ exports.Agent_C = void 0;
 const LogicalAgent_1 = require("./LogicalAgent");
 class Agent_C extends LogicalAgent_1.LogicalAgent {
     /**
-     * Returns number of categories in which both
+     * Returns 100 minus number of categories in which both
      * pages are presented.
      *
      * @param l -  page 1

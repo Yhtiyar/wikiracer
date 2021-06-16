@@ -26,9 +26,6 @@ class LogicalAgent {
     turnOffFastMode() {
         this.fastMode = false;
     }
-    /**
-     *  Please @see {@link BfsAgent run} method, for explanation
-     */
     async run(startPage, endPage) {
         let visitedMap = new Map();
         let queue = new PriorityQueue_1.PriorityQueue();
@@ -41,10 +38,11 @@ class LogicalAgent {
                 throw new Error("Something went wrong, toVisit is null");
             }
             let linkedPages = await toVisit.getAllLinkedPages(this.fastMode);
+            /**Requesting pages categories async-ly, so we will not wait when we need **/
             for (let i = 0; i < linkedPages.length; i++) {
                 if (visitedMap.get(linkedPages[i].getTitle()))
                     continue;
-                setTimeout(() => linkedPages[i].getCategories(), i * 2);
+                setTimeout(() => linkedPages[i].getCategories(), i * 2); //2 - is found to be best coficient by testing performance
             }
             for (const l of linkedPages) {
                 if (visitedMap.get(l.getTitle()))
@@ -57,7 +55,9 @@ class LogicalAgent {
                 }
                 let distance = await this.familiarityDistance(l, endPage);
                 queue.push(l, distance);
-                setTimeout(() => { l.getAllLinkedPages(this.fastMode); }, 200);
+                //Requesting async-ly inner links with some delay
+                setTimeout(() => { l.getAllLinkedPages(this.fastMode); }, 200); //200 ms delay works fine, but it would be better find
+                //some equation with distance
             }
         }
         throw new Error("Path not found.");

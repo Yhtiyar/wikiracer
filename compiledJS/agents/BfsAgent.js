@@ -40,7 +40,7 @@ class BfsAgent {
                      *  in 1 thread, it will effect performance.
                      *  So lets querry it with some delay, depending on queue length
                      */
-                    let delay = queue.length * 10 + linkedPages.length; // 10 is here just some magic number, not mathematicly proved to be best,
+                    let delay = queue.length * 10 + linkedPages.length; // 10 is just some magic number, not mathematicly proved to be best,
                     // just found it with testing, works fine.
                     setTimeout(() => l.getAllLinkedPages(this.fastMode), delay);
                 }
