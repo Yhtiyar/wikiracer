@@ -2,6 +2,11 @@
 Implementation of various bots that will play/solve [wikirace-game](https://en.wikipedia.org/wiki/Wikipedia:Wikirace). In short, given seeking article,
 you need to find from other start article (depending on rules, maybe randomly chosed) as fast as you can by article links in page.
 
+## Contents
+- [How to use](#how-to-use)
+- [Agents](#agents)
+- [Fast mode](#fast-mode)
+
 ## How to use
 #### Requirments:
 1. Node.js  version > 14.0
@@ -25,7 +30,7 @@ you need to find from other start article (depending on rules, maybe randomly ch
 #### Run arguments:
 1. `--start "start_page"`  Wikipedia article where game starts
 2. `--end "end_page"` Seeking article
-3. `--agent agent_name`  Name of the agent (bot) that will play game. See avaible agent here
+3. `--agent agent_name`  Name of the agent (bot) that will play game. See avaible agent [here](#agents)
 4. Optional arguments:
   * `--log` Logs api request details
   * `--disable_fast_mode` Disables [fast mode](#fast-mode)
@@ -47,9 +52,10 @@ is defined as : number of categories that contain both articles. Works slow to s
 rare articles.
 
 ### Agent_L
-Experimental agent similar to Agent_C, however [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) is used to measure familiarity. Average Levenshtein distance between articles of 2 pages represents how familiar are articles. But, distance measuring creates bottleneck, so it becmomes really slow.
+Experimental agent similar to Agent_C, however [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) is used to measure familiarity. Average Levenshtein distance between articles of 2 pages represents how familiar are articles. But, distance measuring creates bottleneck, so it becmomes really slow. Not recommended to use it.
 
 ## Fast mode
 Every agent is in fast mode by default, it means it will search not more that 500 (first lexographically sorted) articles in each page. Since there some pages
 with thousands of links, fast mode will improve agents performance. Searching works fine in this mode. You can disable it manually, see program run arguments.
+
 
