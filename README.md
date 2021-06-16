@@ -6,6 +6,7 @@ you need to find from other start article (depending on rules, maybe randomly ch
 - [How to use](#how-to-use)
 - [Agents](#agents)
 - [Fast mode](#fast-mode)
+- [Benchmark](#agents-benchmark)
 
 ## How to use
 #### Requirments:
