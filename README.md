@@ -43,21 +43,27 @@ you need to find from other start article (depending on rules, maybe randomly ch
 ### Random agent
 Chooses random link everytime. You can use it to check if you lucky enough.
 
+**How to use in run argument** : `--agent random`
+
 ### Bfs agent
 Searches article by [BFS algorithm](https://en.wikipedia.org/wiki/Breadth-first_search). Works really fast to seach famous articles, as
 some famous politicians, countires. Struggles with seaarching specific articles.
+
+**How to use in run argument** : `--agent bfs`
 
 ### Agent_C 
 Improved search with priority queue, the articles that are familiar to seeking article will be looked first. Familiarty in this agent between 2 articles 
 is defined as : number of categories that contain both articles. Works slow to search famous articles compared to Bfs agent, however works good in searching
 rare articles.
 
+**How to use in run argument** : `--agent agent_c`
 ### Agent_L
 Experimental agent similar to Agent_C, however [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) is used to measure familiarity. Average Levenshtein distance between articles of 2 pages represents how familiar are articles. But, distance measuring creates bottleneck, so it becmomes really slow. Not recommended to use it.
 
+**How to use in run argument** : `--agent agent_l`
 ## Fast mode
 Every agent is in fast mode by default, it means it will search not more that 500 (first lexographically sorted) articles in each page. Since there some pages
-with thousands of links, fast mode will improve agents performance. Searching works fine in this mode. You can disable it manually, see program run arguments.
+with thousands of links, fast mode will improve agents performance. Searching works fine in this mode. You can disable it manually by passing `--disable_fast_mode` to run arguments
 
 ## Agents benchmark
 I have developed tests to test agents speed. Test consist of 3 categories.
