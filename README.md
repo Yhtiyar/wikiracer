@@ -62,7 +62,7 @@ Experimental agent similar to Agent_C, however [Levenshtein distance](https://en
 
 **How to use in run argument** : `--agent agent_l`
 ## Fast mode
-Every agent is in fast mode by default, it means it will search not more that 500 (first lexographically sorted) articles in each page. Since there some pages
+Every agent is in fast mode by default, it means it will search not more than 500 (first lexographically sorted) articles in each page. Since there some pages
 with thousands of links, fast mode will improve agents performance. Searching works fine in this mode. You can disable it manually by passing `--disable_fast_mode` to run arguments
 
 ## Agents benchmark
@@ -83,4 +83,4 @@ I have set time limit  10 minutes for Easy, 30 minutes for Middle tests and 1 ho
 [Here](https://github.com/Yhtiyar/wikiracer/tree/main/benchmark-logs) are becnhmark logs.
 #### Counclusion:
 - Use BFS agent for very popular articles
-- Use Agent_C fot others
+- Use Agent_C for others
