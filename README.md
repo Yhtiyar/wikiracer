@@ -16,18 +16,24 @@ you need to find from other start article (depending on rules, maybe randomly ch
 1. Typescript (tsc for building project yourself)
 
 ### Getting source code and installing dependencies:
-* `git clone https://github.com/Yhtiyar/wikiracer.git`
-* `cd wikiracer/`
-* `npm i package.json`
+```bash
+git clone https://github.com/Yhtiyar/wikiracer.git
+cd wikiracer/
+npm i package.json
+```
 
 ### Running: 
-`npm run wikiracer -- --start start_page_url --end end_page_url --agent agent_name`
+```bash
+npm run wikiracer -- --start <start_page_url> --end <end_page_url> --agent <agent_name>
+```
 
 **Important** : **Urls should be in quotes!**
 
  Example:
  
-`npm run wikiracer -- --start "https://en.wikipedia.org/wiki/Asabea_Cropper" --end "https://en.wikipedia.org/wiki/Adolf_Hitler" --agent bfs`
+```bash
+npm run wikiracer -- --start "https://en.wikipedia.org/wiki/Asabea_Cropper" --end "https://en.wikipedia.org/wiki/Adolf_Hitler" --agent bfs
+```
 #### Run arguments:
 1. `--start "start_page"`  Wikipedia article where game starts
 2. `--end "end_page"` Seeking article
